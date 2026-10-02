@@ -591,9 +591,17 @@ services:
 
   hue:
     profiles: ["hue", "full"]
-    image: gethue/hue:4.11.0
+    # Image officielle gethue/hue:4.11.0 + cookie CSRF propre à l'atelier et
+    # compte administrateur créé d'avance (voir hue/Dockerfile).
+    build: ./hue
+    image: atelier-hive-tez/hue:4.11.0
     container_name: hue
     hostname: hue
+    environment:
+      # Compte de connexion à Hue (créé au premier démarrage, conservé dans hue-db).
+      # « hue » est interdit : Hue réserve ce nom à son utilisateur interne.
+      HUE_ADMIN_USER: admin
+      HUE_ADMIN_PASSWORD: admin
     ports:
       - "8888:8888"
     volumes:

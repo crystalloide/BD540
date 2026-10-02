@@ -39,7 +39,7 @@ Les versions du projet d'origine sont **inchangées**. Chaque composant ajouté 
 | Zeppelin | **0.12.1** | build `spark/Dockerfile` (cible `zeppelin`) | `zeppelin` | supporte officiellement Spark 4.0 ; pilote JDBC Hive **4.1.0** |
 | HBase | **2.6.7** (binaire hadoop3) | build `./hbase` | `hbase` | JDK 17 et Hadoop 3.4 officiellement supportés |
 | Impala | **4.5.2** | `apache/impala:4.5.2-*` | `impala` | metastore Hive 4 (Thrift), HDFS 3.x |
-| Hue | **4.11.0** | `gethue/hue:4.11.0` (+ PostgreSQL 15) | `hue` | HiveServer2 4.x, Impala, WebHDFS, HBase Thrift v1 |
+| Hue | **4.11.0** | `gethue/hue:4.11.0` + 2 ajustements (`hue/Dockerfile`), PostgreSQL 15 | `hue` | HiveServer2 4.x, Impala, WebHDFS, HBase Thrift v1 |
 
 ## Architecture
 
@@ -149,6 +149,7 @@ git clone https://github.com/crystalloide/BD540
 cd BD540
 ```
 
+
 ## Démarrage rapide
 
 ### Socle seul (atelier d'origine)
@@ -236,7 +237,7 @@ démarrage du profil `full` avant de lancer la vérification.
 | Impala — impalad | http://localhost:25000 | impala |
 | Impala — statestore | http://localhost:25010 | impala |
 | Impala — catalog | http://localhost:25020 | impala |
-| **Hue** | **http://localhost:8888** | hue |
+| **Hue** | **http://localhost:8888** (compte `admin` / `admin`) | hue |
 
 Les raccourcis correspondants sont dans le dossier `url/`.
 
@@ -461,8 +462,13 @@ mesure Spark SQL à la comparaison MapReduce / Tez quand ces services tournent.
 
 ### Hue — http://localhost:8888
 
-Profil `hue`. À la **première connexion**, Hue demande de créer un compte, par
-exemple `admin` / `admin`. Ce premier compte devient administrateur.
+Profil `hue`. Connexion avec le compte administrateur **`admin` / `admin`**,
+créé automatiquement au premier démarrage (variables `HUE_ADMIN_USER` et
+`HUE_ADMIN_PASSWORD` du service `hue` dans `docker-compose.yml`). Les comptes
+des stagiaires se créent ensuite dans *Administer Users*.
+
+Le nom **`hue` est réservé** par Hue à son utilisateur interne (désactivé), qui
+possède les exemples : il ne peut pas servir de compte de connexion.
 
 | Menu Hue | Branché sur |
 |---|---|
@@ -498,6 +504,8 @@ Sans `-v`, ils sont conservés pour la séance suivante.
 | `docker logs catalogd` : `URISyntaxException: Illegal character in hostname ... _default` | Le réseau Docker porte encore un nom avec `_`. Vérifier la section `networks:` en fin de `docker-compose.yml` (nom `atelier-hive-tez-net`), puis `docker compose --profile full down` et `docker compose --profile full up -d`. |
 | Impala : l'état de synchronisation (http://localhost:25020/events) est en `ERROR` | Le metastore et Impala n'utilisent pas le même `hive.metastore.event.message.factory`. Aligner `hive-conf/hive-site.xml` et `impala/conf/hive-site.xml`, puis redémarrer `metastore` et `catalogd`. En attendant : `INVALIDATE METADATA;`. |
 | Hue : erreur sur l'éditeur Impala ou le menu HBase | Le profil correspondant n'est pas démarré (`--profile impala` / `--profile hbase`). |
+| Hue : « user already exists » en créant le compte `hue` | Nom réservé par Hue. Se connecter avec `admin` / `admin` (créé automatiquement). |
+| Hue : `403 CSRF error. Sorry, your session is invalid or has expired` | Page ouverte avant une connexion/déconnexion faite dans un autre onglet : recharger la page (F5). Si l'erreur persiste, vérifier que l'image de l'atelier est utilisée (`docker compose --profile hue build hue`, puis `docker compose --profile hue up -d`) : ses cookies portent des noms propres (`hue_atelier_*`) et ne peuvent plus être écrasés par un autre Hue ou une autre application Django ouverte sur `localhost`. Motif exact : `docker logs hue 2>&1 \| grep -i csrf`. |
 | HBase : `PleaseHoldException: Master is initializing` | Le master attend le RegionServer : patienter 1 à 2 minutes. |
 | HBase : `No servers available; cannot place 1 unassigned regions` dans les logs du master | Normal pendant 1 à 2 minutes : le master attend le RegionServer pour placer la table système `hbase:meta`. Si le message persiste, vérifier `docker compose --profile hbase ps` (`hbase-regionserver` doit être *healthy*) et `docker logs hbase-regionserver`. |
 | Build : `404` sur un téléchargement Apache | Les Dockerfiles se replient automatiquement sur `archive.apache.org`. Si les deux échouent, relancer le build (miroir temporairement indisponible). |
@@ -704,7 +712,21 @@ Sans `-v`, ils sont conservés pour la séance suivante.
     par HiveServer2. Son client Thrift direct du metastore est antérieur à
     Hive 4 ;
   - l'explorateur de fichiers utilise WebHDFS avec l'utilisateur proxy `hue`,
-    autorisé dans `hadoop/config` (`hadoop.proxyuser.hue.*`).
+    autorisé dans `hadoop/config` (`hadoop.proxyuser.hue.*`) ;
+  - **compte `admin` créé d'avance** (`hue/atelier-startup.sh`, idempotent).
+    Sans lui, Hue affiche à la première visite « Create your account », où le
+    nom `hue` est refusé : Hue le réserve à l'utilisateur interne qui possède
+    les exemples ;
+  - **cookies propres à l'atelier** (`hue_atelier_sessionid`,
+    `hue_atelier_csrftoken`). Un cookie est lié au nom d'hôte, pas au port :
+    tout autre Hue ou application Django ouvert sur `localhost` (par exemple le
+    Hue 4.6 du projet Big-Data-Cluster, lui aussi sur le port 8888) écrit les
+    mêmes cookies `sessionid` et `csrftoken`. Or Hue 4.11 recopie la valeur
+    brute du cookie CSRF dans la page (`window.CSRF_TOKEN`). Après une
+    réécriture par une autre application, chaque action se termine par
+    « 403 CSRF error ». Le cookie de session se renomme dans `hue/z-hue.ini`.
+    Le nom du cookie CSRF est codé en dur : `hue/Dockerfile` le remplace dans
+    les sources de Hue, et le build échoue s'il en reste une occurrence.
 
 - **Contrôle des permissions HDFS désactivé** (`dfs.permissions.enabled=false`
   dans `hadoop/config`). Chaque moteur écrit sous une identité différente :

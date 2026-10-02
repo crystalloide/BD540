@@ -1,0 +1,1217 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%hive\nSHOW DATABASES;\nUSE sales_db;\nSHOW TABLES;",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-22T16:28:17+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "language": "sql"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "database_name": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          },
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "tab_name": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          },
+          "2": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "tab_name": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "database_name\ndefault\nsales_db\n"
+          },
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : -1\n"
+          },
+          {
+            "type": "TABLE",
+            "data": "tab_name\ntransactions\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758473743355_616474448",
+      "id": "paragraph_1758473743355_616474448",
+      "dateCreated": "2025-09-21T16:55:43+0000",
+      "dateStarted": "2025-09-22T16:28:17+0000",
+      "dateFinished": "2025-09-22T16:28:27+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:15802"
+    },
+    {
+      "text": "%hive\nSELECT * FROM sales_db.transactions LIMIT 10;",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-22T16:28:44+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "language": "sql"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "transaction_id": "string",
+                      "customer_name": "string",
+                      "amount": "string",
+                      "transaction_date": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "transaction_id",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "customer_name",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "transaction_id\tcustomer_name\tamount\ttransaction_date\n1\tJohn Doe\t100.5\t2024-01-15\n2\tJane Smith\t250.75\t2024-01-16\n3\tBob Johnson\t75.25\t2024-01-17\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758473779896_2032780203",
+      "id": "paragraph_1758473779896_2032780203",
+      "dateCreated": "2025-09-21T16:56:19+0000",
+      "dateStarted": "2025-09-22T16:28:44+0000",
+      "dateFinished": "2025-09-22T16:28:49+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15803"
+    },
+    {
+      "text": "%sh\n\ncat > log4jLogs.txt<< EOF\nINFO 2025-09-21 10:00:00,001 Starting server\nERROR 2025-09-21 10:05:01,123 Failed connection\nWARN 2025-09-21 10:10:02,456 Slow response\nINFO 2025-09-21 10:15:03,789 User login successful\nEOF\n\n\ncat log4jLogs.txt\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-22T16:29:42+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "editOnDblClick": false,
+          "completionSupport": false,
+          "language": "sh"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sh",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "INFO 2025-09-21 10:00:00,001 Starting server\nERROR 2025-09-21 10:05:01,123 Failed connection\nWARN 2025-09-21 10:10:02,456 Slow response\nINFO 2025-09-21 10:15:03,789 User login successful\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758473888182_8117446",
+      "id": "paragraph_1758473888182_8117446",
+      "dateCreated": "2025-09-21T16:58:08+0000",
+      "dateStarted": "2025-09-22T16:29:42+0000",
+      "dateFinished": "2025-09-22T16:29:45+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15804"
+    },
+    {
+      "text": "%md\nLa commande %hdfs dans Zeppelin vous permet de créer et écrire des fichiers directement depuis un notebook.",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-22T16:29:57+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "editOnDblClick": true,
+          "completionSupport": false,
+          "language": "markdown"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>La commande %hdfs dans Zeppelin vous permet de créer et écrire des fichiers directement depuis un notebook.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758476870135_214999561",
+      "id": "paragraph_1758476870135_214999561",
+      "dateCreated": "2025-09-21T17:47:50+0000",
+      "dateStarted": "2025-09-22T16:29:57+0000",
+      "dateFinished": "2025-09-22T16:30:01+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15805"
+    },
+    {
+      "text": "%sh\nhdfs dfs -put log4jLogs.txt /user/data/log4jLogs.txt\nhdfs dfs -chmod 777 /user/data/log4jLogs.txt\nhdfs dfs -ls /user/data/",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-22T16:30:11+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "editOnDblClick": false,
+          "completionSupport": false,
+          "language": "sh"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sh",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "2025-09-22 16:30:15,310 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false\nFound 1 items\n-rwxrwxrwx   3 root supergroup        187 2025-09-22 16:30 /user/data/log4jLogs.txt\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758474052484_340553421",
+      "id": "paragraph_1758474052484_340553421",
+      "dateCreated": "2025-09-21T17:00:52+0000",
+      "dateStarted": "2025-09-22T16:30:11+0000",
+      "dateFinished": "2025-09-22T16:30:22+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15806"
+    },
+    {
+      "text": "%md\nCREATE [ EXTERNAL ] TABLE [ IF NOT EXISTS ] table_identifier\n    [ ( col_name1[:] col_type1 [ COMMENT col_comment1 ], ... ) ]\n    [ COMMENT table_comment ]\n    [ PARTITIONED BY ( col_name2[:] col_type2 [ COMMENT col_comment2 ], ... ) \n        | ( col_name1, col_name2, ... ) ]\n    [ CLUSTERED BY ( col_name1, col_name2, ...) \n        [ SORTED BY ( col_name1 [ ASC | DESC ], col_name2 [ ASC | DESC ], ... ) ] \n        INTO num_buckets BUCKETS ]\n    [ ROW FORMAT row_format ]\n    [ STORED AS file_format ]\n    [ LOCATION path ]\n    [ TBLPROPERTIES ( key1=val1, key2=val2, ... ) ]\n    [ AS select_statement ]\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-21T18:07:06+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "editOnDblClick": true,
+          "completionSupport": false,
+          "language": "markdown"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>CREATE [ EXTERNAL ] TABLE [ IF NOT EXISTS ] table_identifier<br />\n[ ( col_name1[:] col_type1 [ COMMENT col_comment1 ], &hellip; ) ]<br />\n[ COMMENT table_comment ]<br />\n[ PARTITIONED BY ( col_name2[:] col_type2 [ COMMENT col_comment2 ], &hellip; )<br />\n| ( col_name1, col_name2, &hellip; ) ]<br />\n[ CLUSTERED BY ( col_name1, col_name2, &hellip;)<br />\n[ SORTED BY ( col_name1 [ ASC | DESC ], col_name2 [ ASC | DESC ], &hellip; ) ]<br />\nINTO num_buckets BUCKETS ]<br />\n[ ROW FORMAT row_format ]<br />\n[ STORED AS file_format ]<br />\n[ LOCATION path ]<br />\n[ TBLPROPERTIES ( key1=val1, key2=val2, &hellip; ) ]<br />\n[ AS select_statement ]</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758474891385_1345494830",
+      "id": "paragraph_1758474891385_1345494830",
+      "dateCreated": "2025-09-21T17:14:51+0000",
+      "dateStarted": "2025-09-21T18:07:06+0000",
+      "dateFinished": "2025-09-21T18:07:06+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15807"
+    },
+    {
+      "text": "%hive\nCREATE EXTERNAL TABLE IF NOT EXISTS log4jLogs (\n   t1 string, t2 string, t3 string, t4 string, \n   t5 string, t6 string, t7 string\n)\nROW FORMAT DELIMITED\nFIELDS TERMINATED BY ' '\nSTORED AS TEXTFILE;\n\nLOAD DATA INPATH '/user/data/log4jLogs.txt' INTO TABLE log4jLogs;",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-22T16:30:36+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "language": "sql"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : -1\n\n"
+          },
+          {
+            "type": "TEXT",
+            "data": "Query executed successfully. Affected rows : -1\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758474294327_1227009499",
+      "id": "paragraph_1758474294327_1227009499",
+      "dateCreated": "2025-09-21T17:04:54+0000",
+      "dateStarted": "2025-09-22T16:30:36+0000",
+      "dateFinished": "2025-09-22T16:30:40+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15808"
+    },
+    {
+      "text": "%hive\nSHOW TABLES;\nSELECT * FROM default.log4jLogs LIMIT 10 ;\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-22T16:37:47+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "language": "sql"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "tab_name": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          },
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "t1": "string",
+                      "t2": "string",
+                      "t3": "string",
+                      "t4": "string",
+                      "t5": "string",
+                      "t6": "string",
+                      "t7": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "t1",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "t2",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "tab_name\nlog4jlogs\n"
+          },
+          {
+            "type": "TABLE",
+            "data": "t1\tt2\tt3\tt4\tt5\tt6\tt7\nINFO\t2025-09-21\t10:00:00,001\tStarting\tserver\tnull\tnull\nERROR\t2025-09-21\t10:05:01,123\tFailed\tconnection\tnull\tnull\nWARN\t2025-09-21\t10:10:02,456\tSlow\tresponse\tnull\tnull\nINFO\t2025-09-21\t10:15:03,789\tUser\tlogin\tsuccessful\tnull\nINFO\t2025-09-21\t10:00:00,001\tStarting\tserver\tnull\tnull\nERROR\t2025-09-21\t10:05:01,123\tFailed\tconnection\tnull\tnull\nWARN\t2025-09-21\t10:10:02,456\tSlow\tresponse\tnull\tnull\nINFO\t2025-09-21\t10:15:03,789\tUser\tlogin\tsuccessful\tnull\nINFO\t2025-09-21\t10:00:00,001\tStarting\tserver\tnull\tnull\nERROR\t2025-09-21\t10:05:01,123\tFailed\tconnection\tnull\tnull\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758474381142_361218524",
+      "id": "paragraph_1758474381142_361218524",
+      "dateCreated": "2025-09-21T17:06:21+0000",
+      "dateStarted": "2025-09-22T16:30:55+0000",
+      "dateFinished": "2025-09-22T16:30:56+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15809"
+    },
+    {
+      "text": "%hive\nDESCRIBE default.log4jlogs;\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-22T16:37:54+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "language": "sql"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "col_name": "string",
+                      "data_type": "string",
+                      "comment": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "col_name\tdata_type\tcomment\nt1\tstring\t\nt2\tstring\t\nt3\tstring\t\nt4\tstring\t\nt5\tstring\t\nt6\tstring\t\nt7\tstring\t\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758476078179_548818249",
+      "id": "paragraph_1758476078179_548818249",
+      "dateCreated": "2025-09-21T17:34:38+0000",
+      "dateStarted": "2025-09-22T16:37:54+0000",
+      "dateFinished": "2025-09-22T16:37:55+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15810"
+    },
+    {
+      "text": "%hive\nDESCRIBE FORMATTED default.log4jlogs;\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-22T16:38:00+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "language": "sql"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "col_name": "string",
+                      "data_type": "string",
+                      "comment": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "col_name\tdata_type\tcomment\n# col_name            \tdata_type           \tcomment             \n\tnull\tnull\nt1\tstring\t\nt2\tstring\t\nt3\tstring\t\nt4\tstring\t\nt5\tstring\t\nt6\tstring\t\nt7\tstring\t\n\tnull\tnull\n# Detailed Table Information\tnull\tnull\nDatabase:           \tdefault             \tnull\nOwner:              \troot                \tnull\nCreateTime:         \tSun Sep 21 17:06:23 UTC 2025\tnull\nLastAccessTime:     \tUNKNOWN             \tnull\nRetention:          \t0                   \tnull\nLocation:           \thdfs://namenode:9000/user/hive/warehouse/log4jlogs\tnull\nTable Type:         \tEXTERNAL_TABLE      \tnull\nTable Parameters:\tnull\tnull\n\tEXTERNAL            \tTRUE                \n\tnumFiles            \t3                   \n\tnumRows             \t0                   \n\trawDataSize         \t0                   \n\ttotalSize           \t561                 \n\ttransient_lastDdlTime\t1758558639          \n\tnull\tnull\n# Storage Information\tnull\tnull\nSerDe Library:      \torg.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe\tnull\nInputFormat:        \torg.apache.hadoop.mapred.TextInputFormat\tnull\nOutputFormat:       \torg.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat\tnull\nCompressed:         \tNo                  \tnull\nNum Buckets:        \t-1                  \tnull\nBucket Columns:     \t[]                  \tnull\nSort Columns:       \t[]                  \tnull\nStorage Desc Params:\tnull\tnull\n\tfield.delim         \t                    \n\tserialization.format\t                    \n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758476098664_206127183",
+      "id": "paragraph_1758476098664_206127183",
+      "dateCreated": "2025-09-21T17:34:58+0000",
+      "dateStarted": "2025-09-22T16:38:00+0000",
+      "dateFinished": "2025-09-22T16:38:00+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15811"
+    },
+    {
+      "text": "%sh \nhdfs dfs -chmod 777 hdfs://namenode:9000/user/hive/warehouse/\nhdfs dfs -chmod 777 hdfs://namenode:9000/user/hive/warehouse//log4jlogs\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-21T18:15:02+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sh",
+          "editOnDblClick": false,
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sh",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758478443047_1881629591",
+      "id": "paragraph_1758478443047_1881629591",
+      "dateCreated": "2025-09-21T18:14:03+0000",
+      "dateStarted": "2025-09-21T18:15:02+0000",
+      "dateFinished": "2025-09-21T18:15:08+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15812"
+    },
+    {
+      "text": "%hive\n-- Voir les détails complets de la table\nSHOW CREATE TABLE default.log4jlogs;",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-21T18:29:19+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "language": "sql"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "createtab_stmt": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "createtab_stmt\nCREATE EXTERNAL TABLE `default.log4jlogs`(\n  `t1` string, \n  `t2` string, \n  `t3` string, \n  `t4` string, \n  `t5` string, \n  `t6` string, \n  `t7` string)\nROW FORMAT SERDE \n  'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe' \nWITH SERDEPROPERTIES ( \n  'field.delim'=' ', \n  'serialization.format'=' ') \nSTORED AS INPUTFORMAT \n  'org.apache.hadoop.mapred.TextInputFormat' \nOUTPUTFORMAT \n  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'\nLOCATION\n  'hdfs://namenode:9000/user/hive/warehouse/log4jlogs'\nTBLPROPERTIES (\n  'transient_lastDdlTime'='1758478034')\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758476350538_1423605977",
+      "id": "paragraph_1758476350538_1423605977",
+      "dateCreated": "2025-09-21T17:39:10+0000",
+      "dateStarted": "2025-09-21T18:29:19+0000",
+      "dateFinished": "2025-09-21T18:29:19+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15813"
+    },
+    {
+      "text": "%hive\n-- Vérifier les propriétés de la table\nSHOW TBLPROPERTIES default.log4jlogs;",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-21T18:29:27+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "language": "sql"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "prpt_name": "string",
+                      "prpt_value": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "prpt_name\tprpt_value\nEXTERNAL\tTRUE\nnumFiles\t2\nnumRows\t0\nrawDataSize\t0\ntotalSize\t374\ntransient_lastDdlTime\t1758478034\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758476478265_2128621177",
+      "id": "paragraph_1758476478265_2128621177",
+      "dateCreated": "2025-09-21T17:41:18+0000",
+      "dateStarted": "2025-09-21T18:29:27+0000",
+      "dateFinished": "2025-09-21T18:29:27+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15814"
+    },
+    {
+      "text": "%spark.pyspark\n# Liste des tables de la database par défaaut : \"default\"\nspark.sql(\"SHOW TABLES\").show()\n\n# Liste de toutes les Databases présentes et de leurs tables :\nspark.sql(\"SHOW DATABASES\").show()",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-22T16:41:08+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+---------+---------+-----------+\n|namespace|tableName|isTemporary|\n+---------+---------+-----------+\n+---------+---------+-----------+\n\n+---------+\n|namespace|\n+---------+\n|  default|\n+---------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758479410391_1451923990",
+      "id": "paragraph_1758479410391_1451923990",
+      "dateCreated": "2025-09-21T18:30:10+0000",
+      "dateStarted": "2025-09-22T16:39:12+0000",
+      "dateFinished": "2025-09-22T16:40:01+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15815"
+    },
+    {
+      "text": "%spark.pyspark\n# Liste des tables dans toutes les databases :\ndatabases = spark.sql(\"SHOW DATABASES\").collect()\nfor db in databases:\n    db_name = db[0]\n    print(f\"Tables in database '{db_name}':\")\n    spark.sql(f\"SHOW TABLES IN {db_name}\").show()",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-22T16:39:50+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Tables in database 'default':\n+---------+---------+-----------+\n|namespace|tableName|isTemporary|\n+---------+---------+-----------+\n+---------+---------+-----------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758479437286_1463094755",
+      "id": "paragraph_1758479437286_1463094755",
+      "dateCreated": "2025-09-21T18:30:37+0000",
+      "dateStarted": "2025-09-21T18:31:16+0000",
+      "dateFinished": "2025-09-21T18:31:16+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15816"
+    },
+    {
+      "text": "%md\n\n#### Si la table existe mais n'est pas visible : \n#### - Vous pourriez avoir besoin de rafraîchir le catalogue :\n%spark.pyspark\nspark.catalog.refreshTable(\"default.logjlogs\")\n#### - Vérifiez votre connexion au métastore Hive car on utilise des tables Hive\n#### - Vérifiez votre configuration Spark et vos connexions à la base de données\n",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-22T16:46:46+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionSupport": false,
+          "completionKey": "TAB"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorHide": false,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h4>Si la table existe mais n&rsquo;est pas visible :</h4>\n<h4>- Vous pourriez avoir besoin de rafraîchir le catalogue :</h4>\n<p>%spark.pyspark<br />\nspark.catalog.refreshTable(&ldquo;default.logjlogs&rdquo;)</p>\n<h4>- Vérifiez votre connexion au métastore Hive car on utilise des tables Hive</h4>\n<h4>- Vérifiez votre configuration Spark et vos connexions à la base de données</h4>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758479499411_1489390467",
+      "id": "paragraph_1758479499411_1489390467",
+      "dateCreated": "2025-09-21T18:31:39+0000",
+      "dateStarted": "2025-09-22T16:46:13+0000",
+      "dateFinished": "2025-09-22T16:46:13+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15817"
+    },
+    {
+      "text": "%spark.pyspark\n# Lecture directe à partir des fichiers \ndf = spark.read.format(\"text\").load(\"hdfs://namenode:9000/user/hive/warehouse/log4jlogs\")\n\n# Ou, selon le format de la table :\n# df = spark.read.format(\"parquet\").load(\"path/to/log4j/data/\")  # pour du parquet\n# df = spark.read.format(\"delta\").load(\"path/to/log4j/data/\")    # pour des tables Delta\n# Iceberg ...\ndf.show(10)",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-22T16:47:08+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "completionKey": "TAB"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+\n|               value|\n+--------------------+\n|INFO 2025-09-21 1...|\n|ERROR 2025-09-21 ...|\n|WARN 2025-09-21 1...|\n|INFO 2025-09-21 1...|\n|INFO 2025-09-21 1...|\n|ERROR 2025-09-21 ...|\n|WARN 2025-09-21 1...|\n|INFO 2025-09-21 1...|\n|INFO 2025-09-21 1...|\n|ERROR 2025-09-21 ...|\n+--------------------+\nonly showing top 10 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://namenode:4040/jobs/job?id=0",
+              "$$hashKey": "object:17680"
+            },
+            {
+              "jobUrl": "http://namenode:4040/jobs/job?id=1",
+              "$$hashKey": "object:17681"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758479775253_102064409",
+      "id": "paragraph_1758479775253_102064409",
+      "dateCreated": "2025-09-21T18:36:15+0000",
+      "dateStarted": "2025-09-22T16:47:08+0000",
+      "dateFinished": "2025-09-22T16:47:22+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15818"
+    },
+    {
+      "text": "%spark.sql \nSHOW DATABASES;\nSHOW TABLES;",
+      "user": "anonymous",
+      "dateUpdated": "2025-09-22T16:48:14+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "editOnDblClick": false,
+          "completionSupport": true,
+          "language": "sql",
+          "completionKey": "TAB"
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "namespace": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          },
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "namespace": "string",
+                      "tableName": "string",
+                      "isTemporary": "string"
+                    },
+                    "updated": true
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "namespace\ndefault\n"
+          },
+          {
+            "type": "TABLE",
+            "data": "namespace\ttableName\tisTemporary\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1758475951394_647658569",
+      "id": "paragraph_1758475951394_647658569",
+      "dateCreated": "2025-09-21T17:32:31+0000",
+      "dateStarted": "2025-09-22T16:48:02+0000",
+      "dateFinished": "2025-09-22T16:48:02+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:15819"
+    }
+  ],
+  "name": "TP N1",
+  "id": "2M63X1SG4",
+  "defaultInterpreterGroup": "sh",
+  "version": "0.10.1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/7 - Exercices/TP N1"
+}

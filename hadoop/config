@@ -60,7 +60,12 @@ YARN-SITE.XML_yarn.nodemanager.remote-app-log-dir=/tmp/logs
 
 # ── Capacity Scheduler ────────────────────────────────────────────────────────
 CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.maximum-applications=10000
-CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.maximum-am-resource-percent=0.5
+# Part de YARN réservable par les ApplicationMasters : 0.8 (0.5 à l'origine).
+# Hive sur Tez garde un AM vivant (512 Mo) par session JDBC ouverte, jusqu'à
+# 5 min d'inactivité. Hue et Zeppelin gardent leurs sessions ouvertes. Avec 0.5
+# (2 Go sur 4), deux sessions Tez suffisaient à bloquer l'AM MapReduce (1,5 Go)
+# en ACCEPTED pendant plusieurs minutes (benchmark_engines.sh « figé »).
+CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.maximum-am-resource-percent=0.8
 CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.resource-calculator=org.apache.hadoop.yarn.util.resource.DominantResourceCalculator
 CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.queues=default
 CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.capacity=100

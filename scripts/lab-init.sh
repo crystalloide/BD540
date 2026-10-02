@@ -9,6 +9,12 @@
 set -euo pipefail
 
 export HADOOP_CONF_DIR=/hive_custom_conf
+# Même mécanisme que l'entrypoint officiel de l'image (remplacé par ce script) :
+# les fichiers de hive-conf/ sont liés dans le répertoire de configuration de
+# Hive, dont beeline-log4j2.properties (pas d'avertissement Log4j « package scanning »).
+export HIVE_CONF_DIR="${HIVE_HOME:-/opt/hive}/conf"
+find /hive_custom_conf -type f -exec ln -sfn {} "${HIVE_CONF_DIR}/" \; \
+  || echo "(liens vers hive-conf/ non créés : seul l'avertissement Log4j réapparaît)"
 HDFS_DIR=/user/hadoop/demo/transactions
 JDBC_URL="jdbc:hive2://hiveserver2:10000/default"
 

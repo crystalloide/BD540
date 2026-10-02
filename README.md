@@ -144,24 +144,23 @@ On récupère le projet en local :
 
 ```bash
 cd ~
-sudo rm -Rf BD540
-git clone https://github.com/crystalloide/BD540
-cd BD540
+sudo rm -Rf hadoop-hive-lab
+git clone https://github.com/crystalloide/hadoop-hive-lab
+cd hadoop-hive-lab
 ```
 
 ## Démarrage rapide
-
-
-### Écosystème complet
-
-```bash
-docker compose --profile full up -d --build
-```
 
 ### Socle seul (atelier d'origine)
 
 ```bash
 docker compose up -d --build
+```
+
+### Écosystème complet
+
+```bash
+docker compose --profile full up -d --build
 ```
 
 ### À la carte
@@ -278,9 +277,6 @@ SELECT ville, COUNT(*) AS nb_clients FROM clients GROUP BY ville;
 SET hive.execution.engine=tez;
 SELECT ville, COUNT(*) AS nb_clients FROM clients GROUP BY ville;
 ```
-```sql
-!quit
-```
 
 Ou automatiquement, depuis l'hôte, avec chronométrage :
 
@@ -291,6 +287,19 @@ bash scripts/benchmark_engines.sh
 Si les profils `impala` et/ou `spark` sont démarrés, le script ajoute en bonus
 la même requête exécutée par **Impala** (démons toujours actifs, sans YARN) et
 par **Spark SQL**.
+
+Pendant chaque mesure, un point d'étape s'affiche toutes les 20 s. Le script
+signale aussi, avant de commencer, les applications YARN déjà actives : ce
+sont souvent des sessions Tez laissées ouvertes par Hue, Zeppelin ou un
+beeline, qui occupent le cluster et faussent les temps. Pour partir d'un
+cluster libre :
+
+```bash
+docker exec resourcemanager yarn application -list                    # applications actives
+docker exec resourcemanager yarn application -kill <Application-Id>   # en arrêter une
+```
+
+Une session Tez inactive s'arrête d'elle-même au bout de 5 minutes.
 
 Sur un jeu de données aussi petit, l'essentiel de l'écart vient du
 **démarrage** du moteur (allocation de conteneurs YARN, JVM) : MapReduce
@@ -529,6 +538,7 @@ Sans `-v`, ils sont conservés pour la séance suivante.
 | HBase : `PleaseHoldException: Master is initializing` | Le master attend le RegionServer : patienter 1 à 2 minutes. |
 | HBase : `No servers available; cannot place 1 unassigned regions` dans les logs du master | Normal pendant 1 à 2 minutes : le master attend le RegionServer pour placer la table système `hbase:meta`. Si le message persiste, vérifier `docker compose --profile hbase ps` (`hbase-regionserver` doit être *healthy*) et `docker logs hbase-regionserver`. |
 | Build : `404` sur un téléchargement Apache | Les Dockerfiles se replient automatiquement sur `archive.apache.org`. Si les deux échouent, relancer le build (miroir temporairement indisponible). |
+| `benchmark_engines.sh` semble figé sur MapReduce | Le job attend des ressources YARN, occupées par des sessions Tez (Hue, Zeppelin). Le script le signale toutes les 20 s. Voir `docker exec resourcemanager yarn application -list` et arrêter les sessions inutiles avec `-kill <Application-Id>`, ou attendre leur arrêt automatique (5 min d'inactivité). |
 | Mémoire insuffisante (conteneurs tués, code 137) | Augmenter la RAM de Docker (16 Go pour `full`) ou ne démarrer que les profils utiles. |
 
 ## Notes techniques
@@ -760,6 +770,22 @@ Sans `-v`, ils sont conservés pour la séance suivante.
   supprimée par un autre, ce qui casserait l'intérêt pédagogique d'un catalogue
   partagé. Les `chmod` de `init-tez.sh` sont conservés.
 
+- **Journaux Hive sans avertissement Log4j.** Les configurations Log4j
+  fournies par Hive 4.1.0 déclarent `packages = org.apache.hadoop.hive.ql.log`.
+  Log4j 2.24, embarqué par l'image, signale cette option comme dépréciée à
+  chaque démarrage de JVM (« The use of package scanning to locate Log4j
+  plugins is deprecated »). On en voit plusieurs par service : schematool, le
+  service, puis la réinitialisation des journaux. Ces fichiers n'utilisent que
+  des composants standard de Log4j. Des copies sans cette ligne sont placées
+  dans `hive-conf/` et remplacent celles de l'image via `HIVE_CUSTOM_CONF_DIR`.
+  Pour `lab-init`, dont le script remplace l'entrypoint de l'image, les liens
+  sont créés par `scripts/lab-init.sh`.
+  Les lignes `SLF4J: Class path contains multiple SLF4J bindings` sont un autre
+  avertissement, lui aussi sans conséquence : Hadoop et Hive embarquent chacun
+  une liaison SLF4J, et SLF4J choisit celle de Hive. Il n'est pas supprimé :
+  il faudrait pour cela retirer un jar de l'image, ce qui couperait les
+  messages des commandes `hdfs`. `benchmark_engines.sh` le masque.
+
 - **Téléchargements Apache robustes.** `downloads.apache.org` et `dlcdn` ne
   conservent que la dernière version de chaque projet. Tous les téléchargements
   (Tez, HBase, Zeppelin) se replient automatiquement sur `archive.apache.org`.
@@ -771,13 +797,14 @@ Les versions ne changent pas. Les seules retouches du socle sont additives :
 
 | Fichier | Modification |
 |---|---|
-| `hadoop/config` | utilisateur proxy `hue` ; `dfs.permissions.enabled=false` ; WebHDFS explicitement activé |
+| `hadoop/config` | utilisateur proxy `hue` ; `dfs.permissions.enabled=false` ; WebHDFS explicitement activé ; part YARN des ApplicationMasters portée de 0.5 à 0.8 (les sessions Tez de Hue et Zeppelin ne bloquent plus le job MapReduce du benchmark) |
 | `hadoop/init-tez.sh` | création de `/spark-logs`, `/user/data` (TP N1) et `/hbase` |
 | `hadoop/Dockerfile` | repli sur `archive.apache.org` pour Tez 0.10.5 |
 | `hive-conf/hive-site.xml` | `hive.metastore.dml.events` + `DbNotificationListener` + événements en JSON non compressé (Impala) |
 | `hive-conf/core-site.xml` | utilisateur proxy `hue` (filet de sécurité) |
+| `hive-conf/*-log4j2.properties` (nouveaux) | copies des configurations Log4j de Hive 4.1.0 (`hive`, `beeline`, `metastore`, `hive-exec`) sans la ligne `packages` : plus d'avertissement « package scanning » dans les journaux |
 | `docker-compose.yml` | `zookeeper` partagé (profils `llap`, `hbase`, `full`) + nouveaux services + réseau nommé `atelier-hive-tez-net` (sans `_`) |
-| `scripts/benchmark_engines.sh` | mesures Impala et Spark SQL en bonus, si ces services tournent |
+| `scripts/benchmark_engines.sh` | mesures Impala et Spark SQL en bonus, si ces services tournent ; avertissements SLF4J/Log4j de beeline masqués ; applications YARN déjà actives signalées ; point d'étape toutes les 20 s (non compté dans les temps) |
 
 Nouveaux fichiers : `spark/`, `zeppelin/`, `hbase/`, `impala/`, `hue/`,
 `notebooks/TP_N1.ipynb`, `data/transactions.csv`,

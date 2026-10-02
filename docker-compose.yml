@@ -487,7 +487,13 @@ services:
     image: atelier-hive-tez/hbase:2.6.7
     container_name: hbase-init
     hostname: hbase-init
-    command: ["/opt/hbase-scripts/init-hbase.sh"]
+    command: ["bash", "/opt/hbase-scripts/init-hbase.sh"]
+    # Scripts montés (ils sont aussi copiés dans l'image) : une modification
+    # s'applique par « docker compose up -d hbase-init », sans reconstruire
+    # l'image HBase ni redémarrer le master et le RegionServer.
+    volumes:
+      - ./hbase/init-hbase.sh:/opt/hbase-scripts/init-hbase.sh:ro
+      - ./hbase/demo_clients.hbase:/opt/hbase-scripts/demo_clients.hbase:ro
     depends_on:
       hbase-regionserver:
         condition: service_healthy
@@ -545,7 +551,13 @@ services:
 
   impalad:
     profiles: ["impala", "full"]
-    image: apache/impala:4.5.2-impalad_coord_exec
+    # Image officielle apache/impala:4.5.2-impalad_coord_exec + correctif
+    # IMPALA-10792 (tables Hive 4 refusées : « access type is: NONE »).
+    # Voir impala/Dockerfile et impala/patch/.
+    build:
+      context: ./impala
+      target: impalad
+    image: atelier-hive-tez/impalad:4.5.2
     container_name: impalad
     hostname: impalad
     command: ["-redirect_stdout_stderr=false", "-logtostderr", "-mem_limit=2g"]

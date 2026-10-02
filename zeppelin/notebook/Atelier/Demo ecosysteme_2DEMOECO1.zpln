@@ -250,6 +250,142 @@
       "status": "READY"
     },
     {
+      "title": "HBase (interpréteur %hbase = hbase shell)",
+      "text": "%hbase\n# Nécessite le profil hbase (table créée par le service hbase-init)\nlist\nscan 'clients_hbase', {LIMIT => 3}\ncount 'clients_hbase'",
+      "user": "anonymous",
+      "dateUpdated": "2026-10-02 09:00:41.000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/text",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1790924400041_1700000001",
+      "id": "20261002-090041_1700000001",
+      "dateCreated": "2026-10-02 09:00:41.000",
+      "status": "READY"
+    },
+    {
+      "title": "HDFS (interpréteur %file, via WebHDFS)",
+      "text": "%file\nls -l /user/hadoop/demo/transactions",
+      "user": "anonymous",
+      "dateUpdated": "2026-10-02 09:00:42.000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/text",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1790924400042_1700000002",
+      "id": "20261002-090042_1700000002",
+      "dateCreated": "2026-10-02 09:00:42.000",
+      "status": "READY"
+    },
+    {
+      "title": "Java (interpréteur %java : la classe doit contenir un main)",
+      "text": "%java\npublic class Bonjour {\n  public static void main(String[] args) {\n    System.out.println(\"Bonjour depuis \" + System.getProperty(\"java.version\"));\n  }\n}",
+      "user": "anonymous",
+      "dateUpdated": "2026-10-02 09:00:43.000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "java",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/java",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1790924400043_1700000003",
+      "id": "20261002-090043_1700000003",
+      "dateCreated": "2026-10-02 09:00:43.000",
+      "status": "READY"
+    },
+    {
+      "title": "IPython (interpréteur %python.ipython)",
+      "text": "%python.ipython\nimport sys\nprint(sys.version)\n[x * x for x in range(5)]",
+      "user": "anonymous",
+      "dateUpdated": "2026-10-02 09:00:44.000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1790924400044_1700000004",
+      "id": "20261002-090044_1700000004",
+      "dateCreated": "2026-10-02 09:00:44.000",
+      "status": "READY"
+    },
+    {
       "title": "Liens utiles",
       "text": "%md\n#### Interfaces web (depuis le poste hôte)\n\n| Service | URL |\n|---|---|\n| HDFS NameNode | http://localhost:9870 |\n| YARN ResourceManager | http://localhost:8088 |\n| HiveServer2 | http://localhost:10002 |\n| Spark Master / Worker / History | http://localhost:8080 · http://localhost:8081 · http://localhost:18080 |\n| Driver Spark de Zeppelin | http://localhost:4040 |\n| HBase Master / RegionServer | http://localhost:16010 · http://localhost:16030 |\n| Impala (impalad / statestore / catalog) | http://localhost:25000 · http://localhost:25010 · http://localhost:25020 |\n| Hue | http://localhost:8888 |",
       "user": "anonymous",

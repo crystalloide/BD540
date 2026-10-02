@@ -619,6 +619,127 @@
         "perNote": "shared",
         "perUser": "shared"
       }
+    },
+    "hbase": {
+      "id": "hbase",
+      "name": "hbase",
+      "group": "hbase",
+      "properties": {
+        "hbase.home": {
+          "name": "hbase.home",
+          "value": "/opt/hbase",
+          "type": "string"
+        },
+        "JAVA_HOME": {
+          "name": "JAVA_HOME",
+          "value": "/opt/java/openjdk",
+          "type": "string"
+        }
+      },
+      "status": "READY",
+      "dependencies": [],
+      "option": {
+        "remote": true,
+        "port": -1,
+        "isExistingProcess": false,
+        "setPermission": false,
+        "owners": [],
+        "isUserImpersonate": false,
+        "perNote": "shared",
+        "perUser": "shared"
+      }
+    },
+    "file": {
+      "id": "file",
+      "name": "file",
+      "group": "file",
+      "properties": {
+        "hdfs.url": {
+          "name": "hdfs.url",
+          "value": "http://namenode:9870/webhdfs/v1/",
+          "type": "url"
+        },
+        "hdfs.user": {
+          "name": "hdfs.user",
+          "value": "hadoop",
+          "type": "string"
+        },
+        "hdfs.maxlength": {
+          "name": "hdfs.maxlength",
+          "value": "1000",
+          "type": "number"
+        },
+        "JAVA_HOME": {
+          "name": "JAVA_HOME",
+          "value": "/opt/java/openjdk",
+          "type": "string"
+        }
+      },
+      "status": "READY",
+      "dependencies": [],
+      "option": {
+        "remote": true,
+        "port": -1,
+        "isExistingProcess": false,
+        "setPermission": false,
+        "owners": [],
+        "isUserImpersonate": false,
+        "perNote": "shared",
+        "perUser": "shared"
+      }
+    },
+    "java": {
+      "id": "java",
+      "name": "java",
+      "group": "java",
+      "properties": {
+        "ZEPPELIN_INTERPRETER_JAVA_HOME": {
+          "name": "ZEPPELIN_INTERPRETER_JAVA_HOME",
+          "value": "/opt/jdk17",
+          "type": "string"
+        }
+      },
+      "status": "READY",
+      "dependencies": [],
+      "option": {
+        "remote": true,
+        "port": -1,
+        "isExistingProcess": false,
+        "setPermission": false,
+        "owners": [],
+        "isUserImpersonate": false,
+        "perNote": "shared",
+        "perUser": "shared"
+      }
+    },
+    "spark-submit": {
+      "id": "spark-submit",
+      "name": "spark-submit",
+      "group": "spark-submit",
+      "properties": {
+        "SPARK_HOME": {
+          "name": "SPARK_HOME",
+          "value": "/opt/spark",
+          "type": "string"
+        },
+        "JAVA_HOME": {
+          "name": "JAVA_HOME",
+          "value": "/opt/java/openjdk",
+          "type": "string"
+        }
+      },
+      "status": "READY",
+      "dependencies": [],
+      "option": {
+        "remote": true,
+        "port": -1,
+        "isExistingProcess": false,
+        "setPermission": false,
+        "owners": [],
+        "isUserImpersonate": false,
+        "perNote": "shared",
+        "perUser": "shared"
+      }
     }
   }
 }

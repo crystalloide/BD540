@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Client HBase 2.6.7 de Zeppelin (interpréteur %hbase -> bin/hbase shell).
+  Copié dans /opt/hbase/conf de l'image Zeppelin (spark/Dockerfile).
+  Seuls les réglages d'un CLIENT : le cluster est décrit dans hbase/conf/.
+-->
+<configuration>
+  <property>
+    <name>hbase.cluster.distributed</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.quorum</name>
+    <value>zookeeper</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.property.clientPort</name>
+    <value>2181</value>
+  </property>
+  <property>
+    <name>zookeeper.znode.parent</name>
+    <value>/hbase</value>
+  </property>
+  <property>
+    <name>hbase.rootdir</name>
+    <value>hdfs://namenode:8020/hbase</value>
+  </property>
+  <!-- Réponse rapide si HBase n'est pas démarré (profil hbase absent) : le
+       paragraphe échoue en quelques secondes au lieu d'attendre le délai
+       de 60 s de l'interpréteur Zeppelin. -->
+  <property>
+    <name>hbase.client.retries.number</name>
+    <value>5</value>
+  </property>
+  <property>
+    <name>zookeeper.recovery.retry</name>
+    <value>1</value>
+  </property>
+</configuration>

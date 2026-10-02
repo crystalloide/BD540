@@ -12,6 +12,8 @@
 #    Hive 4.1.0 (compilé en bytecode Java 17).
 # bin/interpreter.sh définit INTERPRETER_DIR avant de lire ce fichier : c'est ce
 # qui distingue un processus d'interpréteur du serveur.
+# L'interpréteur %java (qui compile avec javac) reçoit le JDK complet /opt/jdk17
+# via la propriété ZEPPELIN_INTERPRETER_JAVA_HOME de son réglage.
 if [[ -n "${INTERPRETER_DIR:-}" ]]; then
   export JAVA_HOME="${ZEPPELIN_INTERPRETER_JAVA_HOME:-/opt/java/openjdk}"
 else
@@ -24,6 +26,9 @@ export SPARK_CONF_DIR=/opt/spark/conf
 export HADOOP_CONF_DIR=/opt/hadoop-conf
 export PYSPARK_PYTHON=python3
 export PYSPARK_DRIVER_PYTHON=python3
+
+# Client HBase 2.6.7 (interpréteur %hbase : "$HBASE_HOME/bin/hbase shell")
+export HBASE_HOME=/opt/hbase
 
 # IMPORTANT : sans USE_HADOOP=false, bin/zeppelin.sh ajoute "hadoop classpath"
 # (Hadoop 3.4.2 complet : Jetty 9, Guava, Jackson...) au classpath du SERVEUR

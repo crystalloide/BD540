@@ -38,7 +38,7 @@ Les versions du projet d'origine sont **inchangées**. Chaque composant ajouté 
 | Spark | **4.0.4** (Scala 2.13, Python 3.10) | build `spark/Dockerfile` (base `apache/spark:4.0.4-scala2.13-java17-python3-ubuntu`) | `spark` | client metastore Hive 4.0.1 isolé : le client Hive 2.3 intégré à Spark ne sait pas parler à un metastore Hive 4.x |
 | Zeppelin | **0.12.1** | build `spark/Dockerfile` (cible `zeppelin`) | `zeppelin` | supporte officiellement Spark 4.0 ; pilote JDBC Hive **4.1.0** |
 | HBase | **2.6.7** (binaire hadoop3) | build `./hbase` | `hbase` | JDK 17 et Hadoop 3.4 officiellement supportés |
-| Impala | **4.5.2** | `apache/impala:4.5.2-*` | `impala` | metastore Hive 4 (Thrift), HDFS 3.x |
+| Impala | **4.5.2** | `apache/impala:4.5.2-*` (impalad : + correctif IMPALA-10792, `impala/Dockerfile`) | `impala` | metastore Hive 4 (Thrift), HDFS 3.x |
 | Hue | **4.11.0** | `gethue/hue:4.11.0` + 2 ajustements (`hue/Dockerfile`), PostgreSQL 15 | `hue` | HiveServer2 4.x, Impala, WebHDFS, HBase Thrift v1 |
 
 ## Architecture
@@ -144,23 +144,23 @@ On récupère le projet en local :
 
 ```bash
 cd ~
-sudo rm -Rf BD540
-git clone https://github.com/crystalloide/BD540
-cd BD540
+sudo rm -Rf hadoop-hive-lab
+git clone https://github.com/crystalloide/hadoop-hive-lab
+cd hadoop-hive-lab
 ```
 
 ## Démarrage rapide
 
+### Socle seul (atelier d'origine)
+
+```bash
+docker compose up -d --build
+```
 
 ### Écosystème complet
 
 ```bash
 docker compose --profile full up -d --build
-```
-### Socle seul (atelier de base)
-
-```bash
-docker compose up -d --build
 ```
 
 ### À la carte
@@ -385,23 +385,53 @@ La version corrigée est aussi fournie au format Jupyter dans
 `notebooks/TP_N1.ipynb` (seules les deux premières retouches), importable dans
 Zeppelin via *Import note*.
 
-Interpréteurs préconfigurés (`zeppelin/conf/interpreter.json`) :
+Tous les interpréteurs de Zeppelin 0.12.1 sont installés (*Interpreter* dans
+le menu utilisateur), plus `%sh`. Ceux qui ont un sens dans l'atelier sont
+préconfigurés (`zeppelin/conf/interpreter.json`) et prêts à l'emploi :
 
 | Interpréteur | Cible |
 |---|---|
 | `%spark`, `%spark.pyspark`, `%spark.sql` | Spark 4.0.4, `spark://spark-master:7077`, catalogue Hive partagé (1 Go de driver, 2 executors de 1 cœur / 1 Go) |
+| `%spark.ipyspark` | PySpark dans un noyau IPython (complétion, affichage riche) |
+| `%spark-submit` | `spark-submit` vers le cluster Spark (arguments dans le paragraphe) |
 | `%hive` | HiveServer2 : `jdbc:hive2://hiveserver2:10000/default` (pilote JDBC Hive 4.1.0) |
 | `%impala` | Impala : `jdbc:hive2://impalad:21050/default;auth=noSasl` |
-| `%sh` | shell du conteneur, avec les clients `hdfs`, `yarn` (Hadoop 3.4.2), `spark-submit`, `pyspark` |
-| `%python` | Python 3.10, avec `happybase` (client HBase via Thrift) |
-| `%md` | Markdown |
+| `%hbase` | shell HBase 2.6.7 (`list`, `scan 'clients_hbase'`...) relié au ZooKeeper de l'atelier, profil `hbase` |
+| `%file` | navigation HDFS via WebHDFS (`ls`, `cd`, `pwd`) |
+| `%sh` | shell du conteneur, avec les clients `hdfs`, `yarn` (Hadoop 3.4.2), `hbase`, `spark-submit`, `pyspark` |
+| `%python` | Python 3.10, avec `happybase` (client HBase via Thrift) et `pandas` |
+| `%python.ipython` | Python dans un noyau IPython |
+| `%python.sql` | SQL sur des DataFrames pandas (pandasql) |
+| `%jupyter` | noyau Jupyter générique, par exemple `%jupyter(kernel=python3)` |
+| `%java` | classe Java avec `main`, compilée et exécutée (JDK 17) |
+| `%groovy` | Groovy |
+| `%md`, `%angular` | Markdown, affichage HTML/AngularJS |
+
+Les autres interpréteurs sont installés, mais il leur faut un service absent
+de l'atelier, à renseigner dans leur réglage : `%cassandra`,
+`%elasticsearch`, `%mongodb`, `%neo4j`, `%influxdb`, `%bigquery`, `%alluxio`,
+`%sparql` (point d'accès SPARQL), `%livy` (serveur Livy), `%flink` /
+`%flink-cmd` (distribution Flink), `%jdbc` (réglage générique, PostgreSQL
+local par défaut). R n'est pas installé : `%r`, `%ir` et `%spark.r` ne
+s'exécutent pas.
+
+Le notebook *Atelier / Demo ecosysteme* contient un exemple `%hbase`,
+`%file`, `%java` et `%python.ipython`. `%python` et `%spark.pyspark` restent
+en mode Python classique, comme dans le TP. Le mode IPython s'utilise
+explicitement avec `%python.ipython` et `%spark.ipyspark`. Les paquets Python
+de la pile IPython sont figés sur des versions compatibles avec Zeppelin
+0.12.1 (voir `spark/Dockerfile`).
 
 Le premier paragraphe Spark démarre l'application Spark, ce qui prend 30 à
 60 s. Elle reste ensuite active (visible sur http://localhost:8080) jusqu'au
 redémarrage de l'interpréteur.
 
 Les notebooks sont conservés dans le volume Docker `zeppelin_notebook`. Un
-`docker compose down -v` le réinitialise avec les notebooks d'origine.
+`docker compose down -v` le réinitialise avec les notebooks d'origine. Pour
+ne réinitialiser que ce volume, par exemple après une mise à jour des
+notebooks livrés :
+`docker compose --profile zeppelin rm -sf zeppelin && docker volume rm atelier-hive-tez_zeppelin_notebook`,
+puis `docker compose --profile zeppelin up -d`.
 
 ### Spark — http://localhost:8080
 
@@ -524,9 +554,11 @@ Sans `-v`, ils sont conservés pour la séance suivante.
 | Symptôme | Cause probable / solution |
 |---|---|
 | `docker compose ps` : `lab-init` ou `hbase-init` en `Exited (0)` | Normal : services one-shot terminés avec succès. |
+| `hbase-init` en `Exited (1)` | `docker logs hbase-init` : le script indique l'étape bloquante (master injoignable, aucun RegionServer enregistré, master en cours d'initialisation) et affiche un diagnostic. Une fois HBase prêt, relancer : `docker compose --profile hbase up -d hbase-init` (idempotent, sans redémarrer HBase). |
 | `lab-init` en `Exited (1)` | HiveServer2 n'a pas répondu à temps. Relancer : `docker compose up -d lab-init`, puis `docker compose logs lab-init`. |
 | Premier paragraphe Spark de Zeppelin très long | Démarrage de l'application Spark (30 à 60 s). Suivi dans http://localhost:8080. Si l'application reste en *WAITING* : un autre programme Spark occupe les cœurs du worker, arrêtez-le. |
 | Zeppelin : `Interpreter process is not running` | *Settings > Interpreter > spark > restart*. Journaux : `docker exec zeppelin ls /opt/zeppelin/logs`. |
+| Impala : `AnalysisException: Operations not supported. Table ... access type is: NONE` | Image `impalad` officielle utilisée au lieu de celle de l'atelier (correctif IMPALA-10792). Reconstruire : `docker compose --profile impala up -d --build impalad`. Vérifier : `docker compose images impalad` doit afficher `atelier-hive-tez/impalad`. |
 | Impala ne voit pas une table créée dans Hive | Attendre quelques secondes (synchronisation par événements), sinon `INVALIDATE METADATA base.table;`. |
 | `catalogd` s'arrête au démarrage (`Events processor cannot start`) | Le metastore n'a pas relu `hive-conf/hive-site.xml` (`hive.metastore.dml.events=true`) : `docker compose restart metastore`, puis `docker compose --profile impala up -d`. |
 | `docker logs catalogd` : `URISyntaxException: Illegal character in hostname ... _default` | Le réseau Docker porte encore un nom avec `_`. Vérifier la section `networks:` en fin de `docker-compose.yml` (nom `atelier-hive-tez-net`), puis `docker compose --profile full down` et `docker compose --profile full up -d`. |
@@ -728,6 +760,23 @@ Sans `-v`, ils sont conservés pour la séance suivante.
     (`hive-conf/hive-site.xml` et `impala/conf/hive-site.xml`). Sans cet
     alignement, catalogd démarre, mais la synchronisation automatique passe en
     erreur au premier `CREATE TABLE`.
+  - **Type d'accès des tables (IMPALA-10792).** Le metastore Hive 4 calcule
+    pour chaque table un « type d'accès » (lecture, écriture...) d'après les
+    capacités que déclare le client. La version CDP d'Impala, celle des images
+    officielles, se fie entièrement à ce champ. Or il arrive vide face au
+    metastore Apache Hive 4. Toute requête est alors refusée :
+    `AnalysisException: Operations not supported. Table x access type is: NONE`.
+    La seule solution proposée en amont est de recompiler Impala contre
+    Apache Hive (`USE_APACHE_HIVE=true`). L'image `impalad` de l'atelier
+    (`impala/Dockerfile`) reprend donc l'image officielle et ne corrige que deux
+    méthodes de `MetastoreShim`, dans le jar `impala-frontend`. Si le
+    metastore ne fournit pas le type d'accès, il est calculé comme le fait le
+    transformateur de Hive 4 (`MetastoreDefaultTransformer`) pour les
+    capacités d'Impala. C'est ce que fait déjà la variante « Apache Hive »
+    d'Impala. Résultat : tables externes et gérées en lecture/écriture, vues
+    en lecture seule. Un type d'accès fourni par le metastore reste toujours
+    prioritaire. Le build exécute un auto-test contre les vraies classes de
+    l'image et vérifie le bytecode produit. Sources : `impala/patch/`.
 
   Limite connue : les statistiques de colonnes `TIMESTAMP` calculées par Hive 4
   ne sont pas relues par Impala 4.5.2 (IMPALA-15361, corrigé après la 4.5.2).

@@ -135,5 +135,5 @@ else
 fi
 
 echo ""
-echo "Les temps incluent le démarrage de l'AM / de la session, dominant sur un aussi petit jeu de données :"
+echo "Les temps incluent le démarrage de l'Application Master (AM) pour notre test, avec un impact dominant sur un aussi petit jeu de données :"
 echo "c'est justement cet écart de démarrage que l'atelier vous fait observer entre MapReduce et Tez."

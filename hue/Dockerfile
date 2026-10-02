@@ -14,13 +14,14 @@
 #    échoue si le remplacement n'a pas eu lieu ou s'il reste une occurrence.
 #    (Le cookie de session, lui, est renommé dans z-hue.ini : [[session]] cookie_name.)
 #
-# 2. Démarrage via atelier-startup.sh : compte administrateur créé d'avance.
+# 2. Démarrage via atelier-startup.sh : compte « hue » / « hue » activé avec
+#    les droits administrateur (atelier_hue_user.py), plus un compte de secours.
 # =============================================================================
 FROM gethue/hue:4.11.0
 
 USER root
 
-COPY atelier-startup.sh /usr/share/hue/atelier-startup.sh
+COPY atelier-startup.sh atelier_hue_user.py atelier-check.sh /usr/share/hue/
 
 WORKDIR /usr/share/hue
 
@@ -37,8 +38,9 @@ RUN set -eux; \
     if grep -rqE --include='*.py' --include='*.mako' "[\"']csrftoken[\"']" $dirs; then \
       echo "ERREUR : il reste une référence au cookie csrftoken" >&2; exit 1; \
     fi; \
-    chown hue:hue atelier-startup.sh; \
-    chmod 0755 atelier-startup.sh
+    chown hue:hue atelier-startup.sh atelier_hue_user.py atelier-check.sh; \
+    chmod 0755 atelier-startup.sh atelier-check.sh; \
+    chmod 0644 atelier_hue_user.py
 
 USER hue
 

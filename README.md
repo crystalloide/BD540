@@ -278,6 +278,9 @@ SET hive.execution.engine=tez;
 SELECT ville, COUNT(*) AS nb_clients FROM clients GROUP BY ville;
 ```
 
+```sql
+!quit
+```
 Ou automatiquement, depuis l'hôte, avec chronométrage :
 
 ```bash

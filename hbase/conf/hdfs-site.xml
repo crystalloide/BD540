@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <!-- Un seul DataNode : sans ce réglage, HBase écrirait ses WAL en
+       réplication 3 et les "roulerait" en boucle (détection de faible
+       réplication, hbase.regionserver.hlog.tolerable.lowreplication). -->
+  <property>
+    <name>dfs.replication</name>
+    <value>1</value>
+  </property>
+  <property>
+    <name>dfs.client.use.datanode.hostname</name>
+    <value>true</value>
+  </property>
+</configuration>

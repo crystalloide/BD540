@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Projet Maven "technique", utilisé UNIQUEMENT pendant le build de l'image
+  Zeppelin (spark/Dockerfile, étape zeppelin-maven-deps) pour télécharger :
+    * l'interpréteur %sh (zeppelin-shell 0.12.1) et ses dépendances d'exécution,
+      absents des binaires officiels de Zeppelin depuis la 0.11.1 ;
+    * le pilote JDBC Hive 4.1.0 "standalone" (goal dependency:copy, voir Dockerfile).
+  Rien n'est compilé.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>atelier.hive.tez</groupId>
+  <artifactId>zeppelin-extra-deps</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.zeppelin</groupId>
+      <artifactId>zeppelin-shell</artifactId>
+      <version>0.12.1</version>
+      <exclusions>
+        <!-- pty4j ne sert qu'à %sh.terminal (non activé dans l'atelier) et n'est
+             publié que sur le dépôt Maven de JetBrains : on l'exclut pour que le
+             build ne dépende que de Maven Central. -->
+        <exclusion>
+          <groupId>org.jetbrains.pty4j</groupId>
+          <artifactId>pty4j</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+</project>

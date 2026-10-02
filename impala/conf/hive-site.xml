@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Configuration Hive CÔTÉ CLIENT pour Impala 4.5.2 (statestored, catalogd,
+  impalad). Montée dans /opt/impala/conf, qui est en tête du CLASSPATH des
+  démons Impala (cf. daemon_entrypoint.sh des images apache/impala).
+  Impala partage le metastore Hive 4.1.0 du cluster : mêmes bases, mêmes tables.
+-->
+<configuration>
+  <property>
+    <name>hive.metastore.uris</name>
+    <value>thrift://metastore:9083</value>
+  </property>
+  <property>
+    <name>hive.metastore.warehouse.dir</name>
+    <value>hdfs://namenode:8020/user/hive/warehouse</value>
+  </property>
+  <property>
+    <name>hive.metastore.client.socket.timeout</name>
+    <value>3600</value>
+  </property>
+</configuration>

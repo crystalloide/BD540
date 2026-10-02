@@ -1,0 +1,624 @@
+{
+  "interpreterSettings": {
+    "spark": {
+      "id": "spark",
+      "name": "spark",
+      "group": "spark",
+      "properties": {
+        "SPARK_HOME": {
+          "name": "SPARK_HOME",
+          "value": "/opt/spark",
+          "type": "string"
+        },
+        "spark.master": {
+          "name": "spark.master",
+          "value": "spark://spark-master:7077",
+          "type": "string"
+        },
+        "spark.submit.deployMode": {
+          "name": "spark.submit.deployMode",
+          "value": "client",
+          "type": "string"
+        },
+        "spark.app.name": {
+          "name": "spark.app.name",
+          "value": "zeppelin",
+          "type": "string"
+        },
+        "spark.driver.cores": {
+          "name": "spark.driver.cores",
+          "value": "1",
+          "type": "number"
+        },
+        "spark.driver.memory": {
+          "name": "spark.driver.memory",
+          "value": "1g",
+          "type": "string"
+        },
+        "spark.executor.cores": {
+          "name": "spark.executor.cores",
+          "value": "1",
+          "type": "number"
+        },
+        "spark.executor.memory": {
+          "name": "spark.executor.memory",
+          "value": "1g",
+          "type": "string"
+        },
+        "spark.executor.instances": {
+          "name": "spark.executor.instances",
+          "value": "2",
+          "type": "number"
+        },
+        "spark.files": {
+          "name": "spark.files",
+          "value": "",
+          "type": "string"
+        },
+        "spark.jars": {
+          "name": "spark.jars",
+          "value": "",
+          "type": "string"
+        },
+        "spark.jars.packages": {
+          "name": "spark.jars.packages",
+          "value": "",
+          "type": "string"
+        },
+        "zeppelin.spark.useHiveContext": {
+          "name": "zeppelin.spark.useHiveContext",
+          "value": true,
+          "type": "checkbox"
+        },
+        "zeppelin.spark.run.asLoginUser": {
+          "name": "zeppelin.spark.run.asLoginUser",
+          "value": true,
+          "type": "checkbox"
+        },
+        "zeppelin.spark.printREPLOutput": {
+          "name": "zeppelin.spark.printREPLOutput",
+          "value": true,
+          "type": "checkbox"
+        },
+        "zeppelin.spark.maxResult": {
+          "name": "zeppelin.spark.maxResult",
+          "value": "1000",
+          "type": "number"
+        },
+        "zeppelin.spark.enableSupportedVersionCheck": {
+          "name": "zeppelin.spark.enableSupportedVersionCheck",
+          "value": true,
+          "type": "checkbox"
+        },
+        "zeppelin.spark.uiWebUrl": {
+          "name": "zeppelin.spark.uiWebUrl",
+          "value": "",
+          "type": "string"
+        },
+        "zeppelin.spark.ui.hidden": {
+          "name": "zeppelin.spark.ui.hidden",
+          "value": false,
+          "type": "checkbox"
+        },
+        "spark.webui.yarn.useProxy": {
+          "name": "spark.webui.yarn.useProxy",
+          "value": false,
+          "type": "checkbox"
+        },
+        "zeppelin.spark.scala.color": {
+          "name": "zeppelin.spark.scala.color",
+          "value": true,
+          "type": "checkbox"
+        },
+        "zeppelin.spark.deprecatedMsg.show": {
+          "name": "zeppelin.spark.deprecatedMsg.show",
+          "value": true,
+          "type": "checkbox"
+        },
+        "zeppelin.spark.concurrentSQL": {
+          "name": "zeppelin.spark.concurrentSQL",
+          "value": false,
+          "type": "checkbox"
+        },
+        "zeppelin.spark.concurrentSQL.max": {
+          "name": "zeppelin.spark.concurrentSQL.max",
+          "value": "10",
+          "type": "number"
+        },
+        "zeppelin.spark.sql.stacktrace": {
+          "name": "zeppelin.spark.sql.stacktrace",
+          "value": true,
+          "type": "checkbox"
+        },
+        "zeppelin.spark.sql.interpolation": {
+          "name": "zeppelin.spark.sql.interpolation",
+          "value": false,
+          "type": "checkbox"
+        },
+        "PYSPARK_PYTHON": {
+          "name": "PYSPARK_PYTHON",
+          "value": "python3",
+          "type": "string"
+        },
+        "PYSPARK_DRIVER_PYTHON": {
+          "name": "PYSPARK_DRIVER_PYTHON",
+          "value": "python3",
+          "type": "string"
+        },
+        "zeppelin.pyspark.useIPython": {
+          "name": "zeppelin.pyspark.useIPython",
+          "value": false,
+          "type": "checkbox"
+        },
+        "zeppelin.R.knitr": {
+          "name": "zeppelin.R.knitr",
+          "value": true,
+          "type": "checkbox"
+        },
+        "zeppelin.R.cmd": {
+          "name": "zeppelin.R.cmd",
+          "value": "R",
+          "type": "string"
+        },
+        "zeppelin.R.image.width": {
+          "name": "zeppelin.R.image.width",
+          "value": "100%",
+          "type": "number"
+        },
+        "zeppelin.R.render.options": {
+          "name": "zeppelin.R.render.options",
+          "value": "out.format = 'html', comment = NA, echo = FALSE, results = 'asis', message = F, warning = F, fig.retina = 2",
+          "type": "textarea"
+        },
+        "zeppelin.R.shiny.portRange": {
+          "name": "zeppelin.R.shiny.portRange",
+          "value": ":",
+          "type": "string"
+        },
+        "spark.cores.max": {
+          "name": "spark.cores.max",
+          "value": "2",
+          "type": "string"
+        },
+        "zeppelin.pyspark.python": {
+          "name": "zeppelin.pyspark.python",
+          "value": "python3",
+          "type": "string"
+        },
+        "JAVA_HOME": {
+          "name": "JAVA_HOME",
+          "value": "/opt/java/openjdk",
+          "type": "string"
+        }
+      },
+      "status": "READY",
+      "dependencies": [],
+      "option": {
+        "remote": true,
+        "port": -1,
+        "isExistingProcess": false,
+        "setPermission": false,
+        "owners": [],
+        "isUserImpersonate": false,
+        "perNote": "shared",
+        "perUser": "shared"
+      }
+    },
+    "hive": {
+      "id": "hive",
+      "name": "hive",
+      "group": "jdbc",
+      "properties": {
+        "default.url": {
+          "name": "default.url",
+          "value": "jdbc:hive2://hiveserver2:10000/default",
+          "type": "string"
+        },
+        "default.user": {
+          "name": "default.user",
+          "value": "hive",
+          "type": "string"
+        },
+        "default.password": {
+          "name": "default.password",
+          "value": "",
+          "type": "password"
+        },
+        "default.driver": {
+          "name": "default.driver",
+          "value": "org.apache.hive.jdbc.HiveDriver",
+          "type": "string"
+        },
+        "default.completer.ttlInSeconds": {
+          "name": "default.completer.ttlInSeconds",
+          "value": "120",
+          "type": "number"
+        },
+        "default.completer.schemaFilters": {
+          "name": "default.completer.schemaFilters",
+          "value": "",
+          "type": "textarea"
+        },
+        "default.precode": {
+          "name": "default.precode",
+          "value": "",
+          "type": "textarea"
+        },
+        "default.statementPrecode": {
+          "name": "default.statementPrecode",
+          "value": "",
+          "type": "textarea"
+        },
+        "common.max_count": {
+          "name": "common.max_count",
+          "value": "1000",
+          "type": "number"
+        },
+        "zeppelin.jdbc.auth.type": {
+          "name": "zeppelin.jdbc.auth.type",
+          "value": "",
+          "type": "string"
+        },
+        "zeppelin.jdbc.auth.kerberos.proxy.enable": {
+          "name": "zeppelin.jdbc.auth.kerberos.proxy.enable",
+          "value": true,
+          "type": "checkbox"
+        },
+        "zeppelin.jdbc.concurrent.use": {
+          "name": "zeppelin.jdbc.concurrent.use",
+          "value": true,
+          "type": "checkbox"
+        },
+        "zeppelin.jdbc.concurrent.max_connection": {
+          "name": "zeppelin.jdbc.concurrent.max_connection",
+          "value": "10",
+          "type": "number"
+        },
+        "zeppelin.jdbc.keytab.location": {
+          "name": "zeppelin.jdbc.keytab.location",
+          "value": "",
+          "type": "string"
+        },
+        "zeppelin.jdbc.principal": {
+          "name": "zeppelin.jdbc.principal",
+          "value": "",
+          "type": "string"
+        },
+        "zeppelin.jdbc.interpolation": {
+          "name": "zeppelin.jdbc.interpolation",
+          "value": false,
+          "type": "checkbox"
+        },
+        "zeppelin.jdbc.maxConnLifetime": {
+          "name": "zeppelin.jdbc.maxConnLifetime",
+          "value": "-1",
+          "type": "number"
+        },
+        "zeppelin.jdbc.maxRows": {
+          "name": "zeppelin.jdbc.maxRows",
+          "value": "1000",
+          "type": "number"
+        },
+        "zeppelin.jdbc.hive.timeout.threshold": {
+          "name": "zeppelin.jdbc.hive.timeout.threshold",
+          "value": "60000",
+          "type": "number"
+        },
+        "zeppelin.jdbc.hive.monitor.query_interval": {
+          "name": "zeppelin.jdbc.hive.monitor.query_interval",
+          "value": "1000",
+          "type": "number"
+        },
+        "zeppelin.jdbc.hive.engines.tag.enable": {
+          "name": "zeppelin.jdbc.hive.engines.tag.enable",
+          "value": true,
+          "type": "checkbox"
+        },
+        "zeppelin.jdbc.kyuubi.timeout.threshold": {
+          "name": "zeppelin.jdbc.kyuubi.timeout.threshold",
+          "value": "60000",
+          "type": "number"
+        },
+        "zeppelin.jdbc.kyuubi.monitor.query_interval": {
+          "name": "zeppelin.jdbc.kyuubi.monitor.query_interval",
+          "value": "1000",
+          "type": "number"
+        },
+        "zeppelin.jdbc.kyuubi.jobUrl.template": {
+          "name": "zeppelin.jdbc.kyuubi.jobUrl.template",
+          "value": "",
+          "type": "string"
+        },
+        "default.validationQuery": {
+          "name": "default.validationQuery",
+          "value": "SELECT 1",
+          "type": "string"
+        },
+        "default.testOnBorrow": {
+          "name": "default.testOnBorrow",
+          "value": "true",
+          "type": "string"
+        },
+        "JAVA_HOME": {
+          "name": "JAVA_HOME",
+          "value": "/opt/java/openjdk",
+          "type": "string"
+        }
+      },
+      "status": "READY",
+      "dependencies": [],
+      "option": {
+        "remote": true,
+        "port": -1,
+        "isExistingProcess": false,
+        "setPermission": false,
+        "owners": [],
+        "isUserImpersonate": false,
+        "perNote": "shared",
+        "perUser": "shared"
+      }
+    },
+    "impala": {
+      "id": "impala",
+      "name": "impala",
+      "group": "jdbc",
+      "properties": {
+        "default.url": {
+          "name": "default.url",
+          "value": "jdbc:hive2://impalad:21050/default;auth=noSasl",
+          "type": "string"
+        },
+        "default.user": {
+          "name": "default.user",
+          "value": "impala",
+          "type": "string"
+        },
+        "default.password": {
+          "name": "default.password",
+          "value": "",
+          "type": "password"
+        },
+        "default.driver": {
+          "name": "default.driver",
+          "value": "org.apache.hive.jdbc.HiveDriver",
+          "type": "string"
+        },
+        "default.completer.ttlInSeconds": {
+          "name": "default.completer.ttlInSeconds",
+          "value": "120",
+          "type": "number"
+        },
+        "default.completer.schemaFilters": {
+          "name": "default.completer.schemaFilters",
+          "value": "",
+          "type": "textarea"
+        },
+        "default.precode": {
+          "name": "default.precode",
+          "value": "",
+          "type": "textarea"
+        },
+        "default.statementPrecode": {
+          "name": "default.statementPrecode",
+          "value": "",
+          "type": "textarea"
+        },
+        "common.max_count": {
+          "name": "common.max_count",
+          "value": "1000",
+          "type": "number"
+        },
+        "zeppelin.jdbc.auth.type": {
+          "name": "zeppelin.jdbc.auth.type",
+          "value": "",
+          "type": "string"
+        },
+        "zeppelin.jdbc.auth.kerberos.proxy.enable": {
+          "name": "zeppelin.jdbc.auth.kerberos.proxy.enable",
+          "value": true,
+          "type": "checkbox"
+        },
+        "zeppelin.jdbc.concurrent.use": {
+          "name": "zeppelin.jdbc.concurrent.use",
+          "value": true,
+          "type": "checkbox"
+        },
+        "zeppelin.jdbc.concurrent.max_connection": {
+          "name": "zeppelin.jdbc.concurrent.max_connection",
+          "value": "10",
+          "type": "number"
+        },
+        "zeppelin.jdbc.keytab.location": {
+          "name": "zeppelin.jdbc.keytab.location",
+          "value": "",
+          "type": "string"
+        },
+        "zeppelin.jdbc.principal": {
+          "name": "zeppelin.jdbc.principal",
+          "value": "",
+          "type": "string"
+        },
+        "zeppelin.jdbc.interpolation": {
+          "name": "zeppelin.jdbc.interpolation",
+          "value": false,
+          "type": "checkbox"
+        },
+        "zeppelin.jdbc.maxConnLifetime": {
+          "name": "zeppelin.jdbc.maxConnLifetime",
+          "value": "-1",
+          "type": "number"
+        },
+        "zeppelin.jdbc.maxRows": {
+          "name": "zeppelin.jdbc.maxRows",
+          "value": "1000",
+          "type": "number"
+        },
+        "zeppelin.jdbc.hive.timeout.threshold": {
+          "name": "zeppelin.jdbc.hive.timeout.threshold",
+          "value": "60000",
+          "type": "number"
+        },
+        "zeppelin.jdbc.hive.monitor.query_interval": {
+          "name": "zeppelin.jdbc.hive.monitor.query_interval",
+          "value": "1000",
+          "type": "number"
+        },
+        "zeppelin.jdbc.hive.engines.tag.enable": {
+          "name": "zeppelin.jdbc.hive.engines.tag.enable",
+          "value": false,
+          "type": "checkbox"
+        },
+        "zeppelin.jdbc.kyuubi.timeout.threshold": {
+          "name": "zeppelin.jdbc.kyuubi.timeout.threshold",
+          "value": "60000",
+          "type": "number"
+        },
+        "zeppelin.jdbc.kyuubi.monitor.query_interval": {
+          "name": "zeppelin.jdbc.kyuubi.monitor.query_interval",
+          "value": "1000",
+          "type": "number"
+        },
+        "zeppelin.jdbc.kyuubi.jobUrl.template": {
+          "name": "zeppelin.jdbc.kyuubi.jobUrl.template",
+          "value": "",
+          "type": "string"
+        },
+        "default.validationQuery": {
+          "name": "default.validationQuery",
+          "value": "SELECT 1",
+          "type": "string"
+        },
+        "default.testOnBorrow": {
+          "name": "default.testOnBorrow",
+          "value": "true",
+          "type": "string"
+        },
+        "hive.log.display": {
+          "name": "hive.log.display",
+          "value": "false",
+          "type": "string"
+        },
+        "JAVA_HOME": {
+          "name": "JAVA_HOME",
+          "value": "/opt/java/openjdk",
+          "type": "string"
+        }
+      },
+      "status": "READY",
+      "dependencies": [],
+      "option": {
+        "remote": true,
+        "port": -1,
+        "isExistingProcess": false,
+        "setPermission": false,
+        "owners": [],
+        "isUserImpersonate": false,
+        "perNote": "shared",
+        "perUser": "shared"
+      }
+    },
+    "sh": {
+      "id": "sh",
+      "name": "sh",
+      "group": "sh",
+      "properties": {
+        "shell.command.timeout.millisecs": {
+          "name": "shell.command.timeout.millisecs",
+          "value": "600000",
+          "type": "number"
+        },
+        "shell.command.timeout.check.interval": {
+          "name": "shell.command.timeout.check.interval",
+          "value": "60000",
+          "type": "number"
+        },
+        "shell.working.directory.user.home": {
+          "name": "shell.working.directory.user.home",
+          "value": false,
+          "type": "checkbox"
+        },
+        "zeppelin.shell.auth.type": {
+          "name": "zeppelin.shell.auth.type",
+          "value": "",
+          "type": "string"
+        },
+        "zeppelin.shell.keytab.location": {
+          "name": "zeppelin.shell.keytab.location",
+          "value": "",
+          "type": "string"
+        },
+        "zeppelin.shell.principal": {
+          "name": "zeppelin.shell.principal",
+          "value": "",
+          "type": "string"
+        },
+        "zeppelin.shell.interpolation": {
+          "name": "zeppelin.shell.interpolation",
+          "value": false,
+          "type": "checkbox"
+        },
+        "zeppelin.concurrency.max": {
+          "name": "zeppelin.concurrency.max",
+          "value": "10",
+          "type": "number"
+        },
+        "JAVA_HOME": {
+          "name": "JAVA_HOME",
+          "value": "/opt/java/openjdk",
+          "type": "string"
+        }
+      },
+      "status": "READY",
+      "dependencies": [],
+      "option": {
+        "remote": true,
+        "port": -1,
+        "isExistingProcess": false,
+        "setPermission": false,
+        "owners": [],
+        "isUserImpersonate": false,
+        "perNote": "shared",
+        "perUser": "shared"
+      }
+    },
+    "python": {
+      "id": "python",
+      "name": "python",
+      "group": "python",
+      "properties": {
+        "zeppelin.python": {
+          "name": "zeppelin.python",
+          "value": "python3",
+          "type": "string"
+        },
+        "zeppelin.python.maxResult": {
+          "name": "zeppelin.python.maxResult",
+          "value": "1000",
+          "type": "number"
+        },
+        "zeppelin.python.useIPython": {
+          "name": "zeppelin.python.useIPython",
+          "value": false,
+          "type": "checkbox"
+        },
+        "JAVA_HOME": {
+          "name": "JAVA_HOME",
+          "value": "/opt/java/openjdk",
+          "type": "string"
+        }
+      },
+      "status": "READY",
+      "dependencies": [],
+      "option": {
+        "remote": true,
+        "port": -1,
+        "isExistingProcess": false,
+        "setPermission": false,
+        "owners": [],
+        "isUserImpersonate": false,
+        "perNote": "shared",
+        "perUser": "shared"
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <property>
+    <name>fs.defaultFS</name>
+    <value>hdfs://namenode:8020</value>
+  </property>
+  <property>
+    <name>hadoop.tmp.dir</name>
+    <value>/tmp/hadoop-hive</value>
+  </property>
+
+  <!-- Hue se connecte à HiveServer2 sous l'identité "hue". Si une
+       impersonation est demandée (hive.server2.proxy.user), HiveServer2 la
+       vérifie avec ces règles. Hue est configuré pour ne pas en demander
+       (hue/hive-conf/hive-site.xml, doAs=false) : filet de sécurité. -->
+  <property>
+    <name>hadoop.proxyuser.hue.hosts</name>
+    <value>*</value>
+  </property>
+  <property>
+    <name>hadoop.proxyuser.hue.groups</name>
+    <value>*</value>
+  </property>
+</configuration>

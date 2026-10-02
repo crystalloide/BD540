@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Permet "yarn application -list" etc. depuis Zeppelin (%sh). Spark de
+     l'atelier tourne en mode standalone, pas sur YARN. -->
+<configuration>
+  <property>
+    <name>yarn.resourcemanager.hostname</name>
+    <value>resourcemanager</value>
+  </property>
+</configuration>

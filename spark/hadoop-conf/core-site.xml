@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Client Hadoop (Spark, Zeppelin, commandes hdfs dfs) : cluster HDFS de l'atelier -->
+<configuration>
+  <property>
+    <name>fs.defaultFS</name>
+    <value>hdfs://namenode:8020</value>
+  </property>
+</configuration>

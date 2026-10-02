@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!-- HBase 2.6.7 distribué : données sur le HDFS de l'atelier, coordination par
+     le ZooKeeper du compose (service "zookeeper", partagé avec le profil llap). -->
+<configuration>
+  <property>
+    <name>hbase.cluster.distributed</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hbase.rootdir</name>
+    <value>hdfs://namenode:8020/hbase</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.quorum</name>
+    <value>zookeeper</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.property.clientPort</name>
+    <value>2181</value>
+  </property>
+  <property>
+    <name>zookeeper.znode.parent</name>
+    <value>/hbase</value>
+  </property>
+  <property>
+    <name>hbase.tmp.dir</name>
+    <value>/opt/hbase/tmp</value>
+  </property>
+
+  <!-- WAL "filesystem" (FSHLog) plutôt que "asyncfs" (défaut) : asyncfs accède
+       par réflexion aux classes internes du client HDFS, le provider classique
+       est le plus robuste sur JDK 17 et largement suffisant pour un lab. -->
+  <property>
+    <name>hbase.wal.provider</name>
+    <value>filesystem</value>
+  </property>
+  <property>
+    <name>hbase.unsafe.stream.capability.enforce</name>
+    <value>false</value>
+  </property>
+
+  <!-- Ports (valeurs par défaut, rendues explicites pour le README) -->
+  <property>
+    <name>hbase.master.port</name>
+    <value>16000</value>
+  </property>
+  <property>
+    <name>hbase.master.info.port</name>
+    <value>16010</value>
+  </property>
+  <property>
+    <name>hbase.regionserver.port</name>
+    <value>16020</value>
+  </property>
+  <property>
+    <name>hbase.regionserver.info.port</name>
+    <value>16030</value>
+  </property>
+
+  <!-- Serveur Thrift (v1) utilisé par l'explorateur HBase de Hue et par
+       happybase (Zeppelin) : transport "buffered", protocole binaire
+       (= défauts HBase, et seuls modes supportés par Hue). -->
+  <property>
+    <name>hbase.regionserver.thrift.framed</name>
+    <value>false</value>
+  </property>
+  <property>
+    <name>hbase.regionserver.thrift.compact</name>
+    <value>false</value>
+  </property>
+</configuration>

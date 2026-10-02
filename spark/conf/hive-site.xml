@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Configuration Hive CÔTÉ CLIENT pour Spark (et donc Zeppelin) : uniquement de
+  quoi trouver le metastore partagé du cluster. Volontairement minimale : les
+  réglages serveur de hive-conf/hive-site.xml (transactions, compacteur...) n'ont
+  rien à faire dans un client Spark.
+-->
+<configuration>
+  <property>
+    <name>hive.metastore.uris</name>
+    <value>thrift://metastore:9083</value>
+  </property>
+  <property>
+    <name>hive.metastore.warehouse.dir</name>
+    <value>hdfs://namenode:8020/user/hive/warehouse</value>
+  </property>
+  <!-- Le premier accès au catalogue peut être lent (chargement du client
+       metastore isolé) : on laisse de la marge. -->
+  <property>
+    <name>hive.metastore.client.socket.timeout</name>
+    <value>300s</value>
+  </property>
+</configuration>

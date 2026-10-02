@@ -1,0 +1,309 @@
+{
+  "paragraphs": [
+    {
+      "title": "Objectif",
+      "text": "%md\n### Démo écosystème — vérification de bout en bout\n\nChaque paragraphe interroge **la même table** `sales_db.transactions` (150 ventes, créée au démarrage par `lab-init`) avec un moteur différent.\nExécutez-les dans l'ordre (*Run all*). Composants nécessaires : profil `full`, ou au minimum `zeppelin` (+ `impala` et `hbase` pour les paragraphes correspondants).",
+      "user": "anonymous",
+      "dateUpdated": "2026-10-02 09:00:20.000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1790924420000_-859994195",
+      "id": "20261002-090020_859994195",
+      "dateCreated": "2026-10-02 09:00:20.000",
+      "status": "FINISHED",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h3>Démo écosystème — vérification de bout en bout</h3>\n<p>Chaque paragraphe interroge <strong>la même table</strong> <code>sales_db.transactions</code> (150 ventes, créée au démarrage par <code>lab-init</code>) avec un moteur différent.\nExécutez-les dans l'ordre (<em>Run all</em>). Composants nécessaires : profil <code>full</code>, ou au minimum <code>zeppelin</code> (+ <code>impala</code> et <code>hbase</code> pour les paragraphes correspondants).</p>\n</div>"
+          }
+        ]
+      },
+      "dateStarted": "2026-10-02 09:00:20.000",
+      "dateFinished": "2026-10-02 09:00:20.000"
+    },
+    {
+      "title": "HDFS (client hdfs dans %sh)",
+      "text": "%sh\n# HDFS : le fichier source de la table externe\nhdfs dfs -ls /user/hadoop/demo/transactions\necho \"--- 5 premières lignes ---\"\nhdfs dfs -cat /user/hadoop/demo/transactions/transactions.csv | head -5",
+      "user": "anonymous",
+      "dateUpdated": "2026-10-02 09:00:21.000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sh",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/sh",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1790924421000_1264350247",
+      "id": "20261002-090021_1264350247",
+      "dateCreated": "2026-10-02 09:00:21.000",
+      "status": "READY"
+    },
+    {
+      "title": "Hive",
+      "text": "%hive\n-- Hive 4.1.0 (HiveServer2, moteur Tez)\nSELECT category,\n       COUNT(*)              AS nb_ventes,\n       ROUND(SUM(amount), 2) AS chiffre_affaires\nFROM sales_db.transactions\nGROUP BY category\nORDER BY chiffre_affaires DESC",
+      "user": "anonymous",
+      "dateUpdated": "2026-10-02 09:00:22.000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1790924422000_-1099097093",
+      "id": "20261002-090022_1099097093",
+      "dateCreated": "2026-10-02 09:00:22.000",
+      "status": "READY"
+    },
+    {
+      "title": "Spark (PySpark)",
+      "text": "%spark.pyspark\n# Spark 4.0.4 : même table, lue via le metastore Hive partagé\nfrom pyspark.sql import functions as F\n\ndf = spark.table(\"sales_db.transactions\")\ndf.printSchema()\n(df.groupBy(\"city\")\n   .agg(F.count(\"*\").alias(\"nb_ventes\"), F.round(F.sum(\"amount\"), 2).alias(\"chiffre_affaires\"))\n   .orderBy(F.desc(\"chiffre_affaires\"))\n   .show())\nprint(\"Version de Spark :\", spark.version)",
+      "user": "anonymous",
+      "dateUpdated": "2026-10-02 09:00:23.000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1790924423000_319647407",
+      "id": "20261002-090023_319647407",
+      "dateCreated": "2026-10-02 09:00:23.000",
+      "status": "READY"
+    },
+    {
+      "title": "Spark SQL",
+      "text": "%spark.sql\nSELECT payment_method, COUNT(*) AS nb_ventes, ROUND(AVG(amount), 2) AS panier_moyen\nFROM sales_db.transactions\nGROUP BY payment_method\nORDER BY nb_ventes DESC",
+      "user": "anonymous",
+      "dateUpdated": "2026-10-02 09:00:24.000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1790924424000_108218145",
+      "id": "20261002-090024_108218145",
+      "dateCreated": "2026-10-02 09:00:24.000",
+      "status": "READY"
+    },
+    {
+      "title": "Impala",
+      "text": "%impala\n-- Impala 4.5.2 : rechargement des métadonnées de la table, puis requête\n-- (les nouvelles tables Hive/Spark sont détectées automatiquement en quelques\n-- secondes ; INVALIDATE METADATA reste utile après un ajout de fichiers HDFS)\nINVALIDATE METADATA sales_db.transactions;\nSELECT city, COUNT(*) AS nb_ventes, SUM(amount) AS chiffre_affaires\nFROM sales_db.transactions\nGROUP BY city\nORDER BY chiffre_affaires DESC",
+      "user": "anonymous",
+      "dateUpdated": "2026-10-02 09:00:25.000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1790924425000_1611203271",
+      "id": "20261002-090025_1611203271",
+      "dateCreated": "2026-10-02 09:00:25.000",
+      "status": "READY"
+    },
+    {
+      "title": "HBase (happybase)",
+      "text": "%python\n# HBase 2.6.7 via son serveur Thrift (bibliothèque happybase)\nimport happybase\n\ntry:\n    conn = happybase.Connection(\"hbase-thrift\", 9090, timeout=20000)\n    print(\"Tables HBase :\", [t.decode() for t in conn.tables()])\n    table = conn.table(\"clients_hbase\")\n    for key, data in table.scan(limit=5):\n        print(key.decode(), {k.decode(): v.decode() for k, v in sorted(data.items())})\n    conn.close()\nexcept Exception as e:\n    print(\"HBase indisponible (profil hbase démarré ? service hbase-init terminé ?) :\", repr(e))",
+      "user": "anonymous",
+      "dateUpdated": "2026-10-02 09:00:26.000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9.0,
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1790924426000_985460000",
+      "id": "20261002-090026_985460000",
+      "dateCreated": "2026-10-02 09:00:26.000",
+      "status": "READY"
+    },
+    {
+      "title": "Liens utiles",
+      "text": "%md\n#### Interfaces web (depuis le poste hôte)\n\n| Service | URL |\n|---|---|\n| HDFS NameNode | http://localhost:9870 |\n| YARN ResourceManager | http://localhost:8088 |\n| HiveServer2 | http://localhost:10002 |\n| Spark Master / Worker / History | http://localhost:8080 · http://localhost:8081 · http://localhost:18080 |\n| Driver Spark de Zeppelin | http://localhost:4040 |\n| HBase Master / RegionServer | http://localhost:16010 · http://localhost:16030 |\n| Impala (impalad / statestore / catalog) | http://localhost:25000 · http://localhost:25010 · http://localhost:25020 |\n| Hue | http://localhost:8888 |",
+      "user": "anonymous",
+      "dateUpdated": "2026-10-02 09:00:27.000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9.0,
+        "editorHide": true,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1790924427000_2062335288",
+      "id": "20261002-090027_2062335288",
+      "dateCreated": "2026-10-02 09:00:27.000",
+      "status": "FINISHED",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h4>Interfaces web (depuis le poste hôte)</h4>\n<table>\n<thead>\n<tr>\n<th>Service</th>\n<th>URL</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>HDFS NameNode</td>\n<td>http://localhost:9870</td>\n</tr>\n<tr>\n<td>YARN ResourceManager</td>\n<td>http://localhost:8088</td>\n</tr>\n<tr>\n<td>HiveServer2</td>\n<td>http://localhost:10002</td>\n</tr>\n<tr>\n<td>Spark Master / Worker / History</td>\n<td>http://localhost:8080 · http://localhost:8081 · http://localhost:18080</td>\n</tr>\n<tr>\n<td>Driver Spark de Zeppelin</td>\n<td>http://localhost:4040</td>\n</tr>\n<tr>\n<td>HBase Master / RegionServer</td>\n<td>http://localhost:16010 · http://localhost:16030</td>\n</tr>\n<tr>\n<td>Impala (impalad / statestore / catalog)</td>\n<td>http://localhost:25000 · http://localhost:25010 · http://localhost:25020</td>\n</tr>\n<tr>\n<td>Hue</td>\n<td>http://localhost:8888</td>\n</tr>\n</tbody>\n</table>\n</div>"
+          }
+        ]
+      },
+      "dateStarted": "2026-10-02 09:00:27.000",
+      "dateFinished": "2026-10-02 09:00:27.000"
+    }
+  ],
+  "name": "Demo ecosysteme",
+  "id": "2DEMOECO1",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.12.1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Lu par Hue (beeswax.hive_conf_dir) pour savoir comment parler à HiveServer2.
+     Doit refléter la configuration du HiveServer2 de l'atelier
+     (hive-conf/hive-site.xml) : authentification NONE, doAs désactivé.
+     hive.metastore.uris est volontairement ABSENT : Hue passe uniquement par
+     HiveServer2 (son client Thrift direct du metastore date d'avant Hive 4,
+     dont le metastore a supprimé certains appels comme get_table). -->
+<configuration>
+  <property>
+    <name>hive.server2.enable.doAs</name>
+    <value>false</value>
+  </property>
+  <property>
+    <name>hive.server2.authentication</name>
+    <value>NONE</value>
+  </property>
+  <property>
+    <name>hive.server2.thrift.port</name>
+    <value>10000</value>
+  </property>
+</configuration>

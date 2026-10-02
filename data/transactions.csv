@@ -1,0 +1,150 @@
+1,2025-04-26,8,Ordinateur portable,Informatique,2,899.00,1798.00,Paris,Carte bancaire
+2,2025-08-06,19,Disque SSD 1 To,Informatique,1,89.90,89.90,Lyon,Carte bancaire
+3,2025-09-17,8,Ordinateur portable,Informatique,2,899.00,1798.00,Paris,Virement
+4,2025-08-04,18,Disque SSD 1 To,Informatique,2,89.90,179.80,Paris,Carte bancaire
+5,2025-08-06,6,Guide Hadoop,Librairie,1,45.00,45.00,Lyon,Carte bancaire
+6,2025-02-23,11,Aspirateur,Maison,2,189.00,378.00,Lyon,Carte bancaire
+7,2025-05-17,12,Roman,Librairie,3,21.50,64.50,Marseille,Carte bancaire
+8,2025-06-01,3,Roman,Librairie,4,21.50,86.00,Marseille,PayPal
+9,2025-01-25,3,Tapis de yoga,Sport,2,29.90,59.80,Marseille,PayPal
+10,2025-02-22,8,Chargeur rapide,Téléphonie,1,24.90,24.90,Paris,Espèces
+11,2025-07-10,6,Bouilloire,Maison,3,29.90,89.70,Lyon,Carte bancaire
+12,2025-03-30,20,Chargeur rapide,Téléphonie,1,24.90,24.90,Marseille,Virement
+13,2025-05-20,13,Coque,Téléphonie,5,14.90,74.50,Paris,PayPal
+14,2025-04-29,2,Raquette,Sport,3,59.90,179.70,Lyon,Carte bancaire
+15,2025-04-20,3,Bouilloire,Maison,2,29.90,59.80,Marseille,Virement
+16,2025-08-24,13,Aspirateur,Maison,5,189.00,945.00,Paris,Carte bancaire
+17,2025-05-16,18,Aspirateur,Maison,2,189.00,378.00,Paris,PayPal
+18,2025-04-24,12,Gourde,Sport,4,12.90,51.60,Marseille,Carte bancaire
+19,2025-02-27,2,Gourde,Sport,1,12.90,12.90,Lyon,Carte bancaire
+20,2025-07-16,13,Écouteurs sans fil,Téléphonie,1,129.00,129.00,Paris,Virement
+21,2025-05-18,4,Guide Hadoop,Librairie,1,45.00,45.00,Paris,PayPal
+22,2025-03-23,14,Cafetière,Maison,2,79.90,159.80,Nantes,Espèces
+23,2025-02-25,17,Clavier,Informatique,1,39.90,39.90,Lille,PayPal
+24,2025-03-25,12,Aspirateur,Maison,1,189.00,189.00,Marseille,Virement
+25,2025-01-11,16,Ballon,Sport,3,24.99,74.97,Bordeaux,Carte bancaire
+26,2025-05-05,2,Lampe de bureau,Maison,2,34.90,69.80,Lyon,Virement
+27,2025-03-07,3,Ordinateur portable,Informatique,5,899.00,4495.00,Marseille,Carte bancaire
+28,2025-08-06,17,Bande dessinée,Librairie,2,14.95,29.90,Lille,Carte bancaire
+29,2025-07-12,13,Raquette,Sport,2,59.90,119.80,Paris,Espèces
+30,2025-04-27,8,Gourde,Sport,1,12.90,12.90,Paris,Carte bancaire
+31,2025-04-24,19,Cafetière,Maison,2,79.90,159.80,Lyon,Carte bancaire
+32,2025-01-18,3,Ordinateur portable,Informatique,2,899.00,1798.00,Marseille,Carte bancaire
+33,2025-09-07,9,Disque SSD 1 To,Informatique,2,89.90,179.80,Bordeaux,Carte bancaire
+34,2025-09-01,8,Raquette,Sport,5,59.90,299.50,Paris,Espèces
+35,2025-07-02,14,Smartphone,Téléphonie,1,599.00,599.00,Nantes,Espèces
+36,2025-02-02,4,Manuel SQL,Librairie,1,39.00,39.00,Paris,Espèces
+37,2025-04-09,7,Cafetière,Maison,2,79.90,159.80,Nantes,Virement
+38,2025-05-24,6,Bande dessinée,Librairie,4,14.95,59.80,Lyon,Espèces
+39,2025-02-21,18,Smartphone,Téléphonie,5,599.00,2995.00,Paris,Carte bancaire
+40,2025-03-28,8,Ballon,Sport,1,24.99,24.99,Paris,Espèces
+41,2025-02-01,13,Manuel SQL,Librairie,2,39.00,78.00,Paris,Carte bancaire
+42,2025-08-22,9,Roman,Librairie,4,21.50,86.00,Bordeaux,Carte bancaire
+43,2025-06-02,7,Manuel SQL,Librairie,1,39.00,39.00,Nantes,Carte bancaire
+44,2025-01-31,11,Disque SSD 1 To,Informatique,1,89.90,89.90,Lyon,Carte bancaire
+45,2025-09-19,2,Gourde,Sport,1,12.90,12.90,Lyon,Carte bancaire
+46,2025-07-27,8,Smartphone,Téléphonie,1,599.00,599.00,Paris,Carte bancaire
+47,2025-02-12,20,Raquette,Sport,1,59.90,59.90,Marseille,Espèces
+48,2025-06-11,7,Tapis de yoga,Sport,2,29.90,59.80,Nantes,Carte bancaire
+49,2025-08-24,10,Bouilloire,Maison,1,29.90,29.90,Lille,Carte bancaire
+50,2025-02-22,20,Ordinateur portable,Informatique,5,899.00,4495.00,Marseille,Carte bancaire
+51,2025-06-29,5,Raquette,Sport,2,59.90,119.80,Toulouse,Carte bancaire
+52,2025-08-14,6,Chargeur rapide,Téléphonie,2,24.90,49.80,Lyon,Virement
+53,2025-03-11,4,Cafetière,Maison,2,79.90,159.80,Paris,Carte bancaire
+54,2025-05-26,9,Ordinateur portable,Informatique,1,899.00,899.00,Bordeaux,Virement
+55,2025-09-17,9,Chargeur rapide,Téléphonie,2,24.90,49.80,Bordeaux,Espèces
+56,2025-05-23,14,Cafetière,Maison,1,79.90,79.90,Nantes,Carte bancaire
+57,2025-03-25,9,Clavier,Informatique,1,39.90,39.90,Bordeaux,PayPal
+58,2025-02-09,4,Manuel SQL,Librairie,1,39.00,39.00,Paris,PayPal
+59,2025-03-18,19,Smartphone,Téléphonie,3,599.00,1797.00,Lyon,Espèces
+60,2025-01-22,12,Smartphone,Téléphonie,2,599.00,1198.00,Marseille,Carte bancaire
+61,2025-07-29,12,Coque,Téléphonie,1,14.90,14.90,Marseille,Virement
+62,2025-08-01,6,Coque,Téléphonie,1,14.90,14.90,Lyon,Carte bancaire
+63,2025-05-18,8,Chargeur rapide,Téléphonie,4,24.90,99.60,Paris,Carte bancaire
+64,2025-04-25,16,Souris,Informatique,1,19.90,19.90,Bordeaux,Carte bancaire
+65,2025-04-26,8,Guide Hadoop,Librairie,2,45.00,90.00,Paris,Carte bancaire
+66,2025-02-06,9,Écouteurs sans fil,Téléphonie,3,129.00,387.00,Bordeaux,Carte bancaire
+67,2025-03-02,1,Bouilloire,Maison,3,29.90,89.70,Paris,Carte bancaire
+68,2025-08-12,4,Chargeur rapide,Téléphonie,1,24.90,24.90,Paris,Carte bancaire
+69,2025-04-09,13,Bouilloire,Maison,1,29.90,29.90,Paris,Carte bancaire
+70,2025-04-12,17,Souris,Informatique,1,19.90,19.90,Lille,Carte bancaire
+71,2025-06-11,20,Roman,Librairie,3,21.50,64.50,Marseille,PayPal
+72,2025-06-18,14,Clavier,Informatique,2,39.90,79.80,Nantes,Espèces
+73,2025-07-15,14,Aspirateur,Maison,2,189.00,378.00,Nantes,PayPal
+74,2025-01-02,18,Chargeur rapide,Téléphonie,4,24.90,99.60,Paris,Carte bancaire
+75,2025-06-15,19,Aspirateur,Maison,4,189.00,756.00,Lyon,Espèces
+76,2025-09-01,17,Manuel SQL,Librairie,2,39.00,78.00,Lille,PayPal
+77,2025-06-22,17,Smartphone,Téléphonie,2,599.00,1198.00,Lille,Carte bancaire
+78,2025-03-18,7,Chargeur rapide,Téléphonie,2,24.90,49.80,Nantes,Carte bancaire
+79,2025-02-08,20,Écran 27 pouces,Informatique,5,249.90,1249.50,Marseille,Espèces
+80,2025-07-25,16,Bande dessinée,Librairie,4,14.95,59.80,Bordeaux,Carte bancaire
+81,2025-04-24,14,Smartphone,Téléphonie,1,599.00,599.00,Nantes,Carte bancaire
+82,2025-05-09,18,Gourde,Sport,1,12.90,12.90,Paris,Carte bancaire
+83,2025-06-13,17,Bande dessinée,Librairie,5,14.95,74.75,Lille,Espèces
+84,2025-09-02,6,Gourde,Sport,5,12.90,64.50,Lyon,Espèces
+85,2025-09-07,17,Aspirateur,Maison,2,189.00,378.00,Lille,PayPal
+86,2025-05-28,3,Chargeur rapide,Téléphonie,5,24.90,124.50,Marseille,Carte bancaire
+87,2025-02-12,18,Lampe de bureau,Maison,3,34.90,104.70,Paris,Carte bancaire
+88,2025-04-21,5,Coque,Téléphonie,4,14.90,59.60,Toulouse,Carte bancaire
+89,2025-08-28,18,Manuel SQL,Librairie,3,39.00,117.00,Paris,Espèces
+90,2025-01-12,13,Écran 27 pouces,Informatique,4,249.90,999.60,Paris,Virement
+91,2025-06-03,12,Manuel SQL,Librairie,1,39.00,39.00,Marseille,Espèces
+92,2025-05-21,8,Bande dessinée,Librairie,5,14.95,74.75,Paris,Espèces
+93,2025-07-28,11,Roman,Librairie,4,21.50,86.00,Lyon,PayPal
+94,2025-01-15,20,Écouteurs sans fil,Téléphonie,1,129.00,129.00,Marseille,Espèces
+95,2025-03-12,14,Ballon,Sport,1,24.99,24.99,Nantes,Espèces
+96,2025-06-18,13,Smartphone,Téléphonie,2,599.00,1198.00,Paris,Carte bancaire
+97,2025-05-24,13,Guide Hadoop,Librairie,3,45.00,135.00,Paris,Espèces
+98,2025-01-28,1,Cafetière,Maison,5,79.90,399.50,Paris,Carte bancaire
+99,2025-05-08,1,Smartphone,Téléphonie,1,599.00,599.00,Paris,Carte bancaire
+100,2025-03-07,8,Disque SSD 1 To,Informatique,1,89.90,89.90,Paris,Espèces
+101,2025-05-13,15,Disque SSD 1 To,Informatique,2,89.90,179.80,Toulouse,Carte bancaire
+102,2025-02-26,10,Smartphone,Téléphonie,1,599.00,599.00,Lille,Virement
+103,2025-04-13,13,Clavier,Informatique,4,39.90,159.60,Paris,Carte bancaire
+104,2025-03-04,10,Raquette,Sport,1,59.90,59.90,Lille,Virement
+105,2025-02-06,12,Clavier,Informatique,4,39.90,159.60,Marseille,Virement
+106,2025-02-25,16,Cafetière,Maison,4,79.90,319.60,Bordeaux,Espèces
+107,2025-04-02,14,Bouilloire,Maison,1,29.90,29.90,Nantes,PayPal
+108,2025-08-13,15,Tapis de yoga,Sport,5,29.90,149.50,Toulouse,PayPal
+109,2025-02-15,8,Tapis de yoga,Sport,3,29.90,89.70,Paris,Carte bancaire
+110,2025-07-15,19,Bande dessinée,Librairie,5,14.95,74.75,Lyon,Carte bancaire
+111,2025-09-08,6,Souris,Informatique,3,19.90,59.70,Lyon,Carte bancaire
+112,2025-05-23,9,Lampe de bureau,Maison,3,34.90,104.70,Bordeaux,Virement
+113,2025-05-05,3,Disque SSD 1 To,Informatique,2,89.90,179.80,Marseille,PayPal
+114,2025-09-10,16,Manuel SQL,Librairie,2,39.00,78.00,Bordeaux,Espèces
+115,2025-07-28,8,Ordinateur portable,Informatique,2,899.00,1798.00,Paris,PayPal
+116,2025-06-27,16,Chargeur rapide,Téléphonie,3,24.90,74.70,Bordeaux,Espèces
+117,2025-05-20,15,Tapis de yoga,Sport,3,29.90,89.70,Toulouse,Carte bancaire
+118,2025-06-12,7,Aspirateur,Maison,1,189.00,189.00,Nantes,Carte bancaire
+119,2025-09-06,7,Raquette,Sport,2,59.90,119.80,Nantes,Carte bancaire
+120,2025-06-02,7,Tapis de yoga,Sport,1,29.90,29.90,Nantes,Carte bancaire
+121,2025-03-07,1,Aspirateur,Maison,2,189.00,378.00,Paris,Carte bancaire
+122,2025-09-10,5,Ordinateur portable,Informatique,2,899.00,1798.00,Toulouse,Carte bancaire
+123,2025-09-04,16,Disque SSD 1 To,Informatique,2,89.90,179.80,Bordeaux,Espèces
+124,2025-09-03,9,Aspirateur,Maison,1,189.00,189.00,Bordeaux,Carte bancaire
+125,2025-01-29,3,Souris,Informatique,5,19.90,99.50,Marseille,Carte bancaire
+126,2025-03-03,8,Chargeur rapide,Téléphonie,1,24.90,24.90,Paris,Virement
+127,2025-08-16,15,Bande dessinée,Librairie,4,14.95,59.80,Toulouse,Carte bancaire
+128,2025-02-01,19,Gourde,Sport,2,12.90,25.80,Lyon,Virement
+129,2025-02-12,9,Écran 27 pouces,Informatique,2,249.90,499.80,Bordeaux,Carte bancaire
+130,2025-01-03,6,Coque,Téléphonie,1,14.90,14.90,Lyon,Espèces
+131,2025-04-30,2,Manuel SQL,Librairie,2,39.00,78.00,Lyon,Carte bancaire
+132,2025-05-17,8,Bouilloire,Maison,1,29.90,29.90,Paris,PayPal
+133,2025-04-27,4,Raquette,Sport,4,59.90,239.60,Paris,PayPal
+134,2025-02-01,3,Chargeur rapide,Téléphonie,1,24.90,24.90,Marseille,Carte bancaire
+135,2025-08-29,4,Lampe de bureau,Maison,5,34.90,174.50,Paris,PayPal
+136,2025-09-11,17,Bouilloire,Maison,2,29.90,59.80,Lille,Espèces
+137,2025-06-16,14,Disque SSD 1 To,Informatique,1,89.90,89.90,Nantes,Virement
+138,2025-01-12,8,Cafetière,Maison,1,79.90,79.90,Paris,PayPal
+139,2025-09-24,16,Cafetière,Maison,1,79.90,79.90,Bordeaux,PayPal
+140,2025-08-13,19,Guide Hadoop,Librairie,1,45.00,45.00,Lyon,PayPal
+141,2025-07-30,12,Roman,Librairie,5,21.50,107.50,Marseille,Carte bancaire
+142,2025-07-31,11,Cafetière,Maison,1,79.90,79.90,Lyon,PayPal
+143,2025-01-20,18,Guide Hadoop,Librairie,4,45.00,180.00,Paris,Espèces
+144,2025-03-02,11,Clavier,Informatique,2,39.90,79.80,Lyon,Espèces
+145,2025-01-29,14,Ballon,Sport,5,24.99,124.95,Nantes,Carte bancaire
+146,2025-01-28,15,Tapis de yoga,Sport,5,29.90,149.50,Toulouse,Carte bancaire
+147,2025-09-07,15,Aspirateur,Maison,2,189.00,378.00,Toulouse,Carte bancaire
+148,2025-06-10,6,Disque SSD 1 To,Informatique,2,89.90,179.80,Lyon,Virement
+149,2025-04-27,3,Disque SSD 1 To,Informatique,4,89.90,359.60,Marseille,Carte bancaire
+150,2025-05-31,16,Roman,Librairie,1,21.50,21.50,Bordeaux,Virement

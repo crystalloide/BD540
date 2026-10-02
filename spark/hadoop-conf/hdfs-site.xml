@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <!-- Un seul DataNode dans l'atelier : sans ce réglage, chaque fichier écrit
+       depuis Spark/Zeppelin serait demandé en 3 copies (sous-répliqué). -->
+  <property>
+    <name>dfs.replication</name>
+    <value>1</value>
+  </property>
+  <property>
+    <name>dfs.client.use.datanode.hostname</name>
+    <value>true</value>
+  </property>
+</configuration>

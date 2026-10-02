@@ -1,0 +1,613 @@
+name: atelier-hive-tez
+
+# ════════════════════════════════════════════════════════════════════════════
+# Démarrage (voir README) :
+#   docker compose up -d --build                      -> atelier d'origine (HDFS, YARN, Tez, Hive)
+#   docker compose --profile full up -d --build       -> + Spark, Zeppelin, HBase, Impala, Hue
+#   docker compose --profile zeppelin up -d --build   -> + Spark + Zeppelin (TP N1)
+# Profils disponibles : spark, zeppelin, hbase, impala, hue, full (= tous), llap (bonus)
+# Arrêt complet :  docker compose --profile full --profile llap down -v
+# ════════════════════════════════════════════════════════════════════════════
+
+services:
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # Cluster Hadoop (HDFS + YARN) + Tez — construit depuis ./hadoop
+  # Point de départ : https://github.com/crystalloide/hadoop-tez-docker
+  # ══════════════════════════════════════════════════════════════════════════
+
+  namenode:
+    build: ./hadoop
+    hostname: namenode
+    container_name: namenode
+    command: ["hdfs", "namenode"]
+    ports:
+      - "9870:9870"
+    env_file:
+      - ./hadoop/config
+    environment:
+      ENSURE_NAMENODE_DIR: "/tmp/hadoop-root/dfs/name"
+    volumes:
+      - ./data:/opt/data:ro
+      - ./scripts:/opt/scripts:ro
+    healthcheck:
+      # Le NameNode est "healthy" uniquement une fois sorti du safe mode
+      test: ["CMD-SHELL", "hdfs dfsadmin -safemode get 2>/dev/null | grep -q 'Safe mode is OFF'"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 40s
+
+  datanode:
+    build: ./hadoop
+    hostname: datanode
+    container_name: datanode
+    command: ["hdfs", "datanode"]
+    env_file:
+      - ./hadoop/config
+    depends_on:
+      namenode:
+        condition: service_healthy
+
+  resourcemanager:
+    build: ./hadoop
+    hostname: resourcemanager
+    container_name: resourcemanager
+    command: ["yarn", "resourcemanager"]
+    ports:
+      - "8088:8088"
+    env_file:
+      - ./hadoop/config
+    depends_on:
+      namenode:
+        condition: service_healthy
+    healthcheck:
+      # "healthy" seulement quand au moins un NodeManager est bien enregistré et RUNNING
+      test: ["CMD-SHELL", "yarn node -list 2>/dev/null | grep -q RUNNING"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 40s
+
+  nodemanager:
+    build: ./hadoop
+    hostname: nodemanager
+    container_name: nodemanager
+    command: ["yarn", "nodemanager"]
+    env_file:
+      - ./hadoop/config
+    depends_on:
+      namenode:
+        condition: service_healthy
+      resourcemanager:
+        condition: service_started
+
+  # Service one-shot : dépose le tarball Tez sur HDFS puis s'arrête
+  tez-init:
+    build: ./hadoop
+    hostname: tez-init
+    container_name: tez-init
+    command: ["/bin/bash", "/opt/init-tez.sh"]
+    env_file:
+      - ./hadoop/config
+    volumes:
+      - ./hadoop/init-tez.sh:/opt/init-tez.sh:ro
+    depends_on:
+      namenode:
+        condition: service_healthy
+    restart: "no"
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # Hive (image officielle apache/hive) — metastore + hiveserver2
+  # ══════════════════════════════════════════════════════════════════════════
+
+  metastore:
+    build: ./hive
+    image: atelier-hive-tez/hive-fixed:4.1.0
+    hostname: metastore
+    container_name: metastore
+    environment:
+      SERVICE_NAME: metastore
+      SERVICE_OPTS: -Xmx512m
+      HIVE_CUSTOM_CONF_DIR: /hive_custom_conf
+    volumes:
+      - ./hive-conf:/hive_custom_conf:ro
+    depends_on:
+      tez-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/9083'"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 40s
+
+  hiveserver2:
+    build: ./hive
+    image: atelier-hive-tez/hive-fixed:4.1.0
+    hostname: hiveserver2
+    container_name: hiveserver2
+    environment:
+      SERVICE_NAME: hiveserver2
+      IS_RESUME: "true"
+      SERVICE_OPTS: -Xmx1G -Dhive.metastore.uris=thrift://metastore:9083
+      HIVE_CUSTOM_CONF_DIR: /hive_custom_conf
+    ports:
+      - "10000:10000"
+      - "10002:10002"
+    volumes:
+      - ./hive-conf:/hive_custom_conf:ro
+      - ./scripts:/opt/scripts:ro
+    depends_on:
+      metastore:
+        condition: service_healthy
+      resourcemanager:
+        condition: service_healthy
+      tez-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/10000'"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 60s
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # BONUS (optionnel) — Tez + LLAP en mode autonome (sans YARN), inspiré de
+  # l'environnement officiel packaging/src/docker du projet Apache Hive.
+  # Activation : docker compose --profile llap up -d
+  # ══════════════════════════════════════════════════════════════════════════
+
+  # ZooKeeper est partagé : bonus LLAP (enregistrement Tez AM / démons LLAP) ET
+  # HBase (coordination master / RegionServers). Il démarre avec l'un ou l'autre.
+  zookeeper:
+    profiles: ["llap", "hbase", "full"]
+    image: zookeeper:3.8.4
+    container_name: zookeeper
+    hostname: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      # ruok : healthcheck ; srvr/stat/mntr : page "ZooKeeper dump" de l'UI HBase
+      ZOO_4LW_COMMANDS_WHITELIST: "ruok,srvr,stat,mntr"
+    healthcheck:
+      test: ["CMD-SHELL", "echo ruok | nc -w 2 127.0.0.1 2181 | grep imok"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  tezam:
+    profiles: ["llap"]
+    build: ./hive
+    image: atelier-hive-tez/hive-fixed:4.1.0
+    container_name: tezam
+    hostname: tezam
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    restart: on-failure:3
+    environment:
+      USER: hive
+      SERVICE_NAME: tezam
+      TEZ_FRAMEWORK_MODE: STANDALONE_ZOOKEEPER
+      TEZ_AM_ZOOKEEPER_QUORUM: zookeeper:2181
+      TEZ_AM_RPC_PORT: "15100"
+      HIVE_ZOOKEEPER_QUORUM: zookeeper:2181
+      HIVE_LLAP_DAEMON_SERVICE_HOSTS: "@llap0"
+      DEFAULT_FS: hdfs://namenode:8020
+      HIVE_WAREHOUSE_PATH: /user/hive/warehouse
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/15100'"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  llapdaemon:
+    profiles: ["llap"]
+    build: ./hive
+    image: atelier-hive-tez/hive-fixed:4.1.0
+    container_name: llapdaemon
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    environment:
+      USER: hive
+      SERVICE_NAME: llap
+      LLAP_MEMORY_MB: "1024"
+      LLAP_EXECUTORS: "1"
+      HIVE_ZOOKEEPER_QUORUM: zookeeper:2181
+      DEFAULT_FS: hdfs://namenode:8020
+      HIVE_WAREHOUSE_PATH: /user/hive/warehouse
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/15001'"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  hiveserver2-llap:
+    profiles: ["llap"]
+    build: ./hive
+    image: atelier-hive-tez/hive-fixed:4.1.0
+    hostname: hiveserver2-llap
+    container_name: hiveserver2-llap
+    environment:
+      SERVICE_NAME: hiveserver2
+      IS_RESUME: "true"
+      SERVICE_OPTS: >-
+        -Xmx1G
+        -Dhive.metastore.uris=thrift://metastore:9083
+        -Dhive.zookeeper.quorum=zookeeper:2181
+        -Dhive.llap.daemon.service.hosts=@llap0
+      HIVE_ZOOKEEPER_QUORUM: zookeeper:2181
+      HIVE_LLAP_DAEMON_SERVICE_HOSTS: "@llap0"
+      HIVE_SERVER2_TEZ_USE_EXTERNAL_SESSIONS: "true"
+      TEZ_FRAMEWORK_MODE: STANDALONE_ZOOKEEPER
+      DEFAULT_FS: hdfs://namenode:8020
+      HIVE_WAREHOUSE_PATH: /user/hive/warehouse
+    ports:
+      - "10001:10000"
+      - "10012:10002"
+    depends_on:
+      metastore:
+        condition: service_healthy
+      zookeeper:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/10000'"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 60s
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # Données de démonstration (toujours actif) — one-shot : sales_db.transactions
+  # sur HDFS + metastore, utilisée par le TP Zeppelin N1, Hue, Impala, Spark.
+  # ══════════════════════════════════════════════════════════════════════════
+
+  lab-init:
+    build: ./hive
+    image: atelier-hive-tez/hive-fixed:4.1.0
+    container_name: lab-init
+    hostname: lab-init
+    entrypoint: ["bash", "/opt/scripts/lab-init.sh"]
+    volumes:
+      - ./hive-conf:/hive_custom_conf:ro
+      - ./data:/opt/data:ro
+      - ./scripts:/opt/scripts:ro
+    depends_on:
+      hiveserver2:
+        condition: service_healthy
+    restart: "no"
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # Apache Spark 4.0.4 — cluster "standalone" (profils : spark, zeppelin, full)
+  # Image : spark/Dockerfile (cible "spark"), catalogue = metastore Hive partagé
+  # ══════════════════════════════════════════════════════════════════════════
+
+  spark-master:
+    profiles: ["spark", "zeppelin", "full"]
+    build:
+      context: .
+      dockerfile: spark/Dockerfile
+      target: spark
+    image: atelier-hive-tez/spark:4.0.4
+    container_name: spark-master
+    hostname: spark-master
+    command: ["/opt/spark/bin/spark-class", "org.apache.spark.deploy.master.Master",
+              "--host", "spark-master", "--port", "7077", "--webui-port", "8080"]
+    environment:
+      SPARK_DAEMON_MEMORY: 512m
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./scripts:/opt/scripts:ro
+      - ./data:/opt/data:ro
+    depends_on:
+      namenode:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:8080/json/ > /dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  spark-worker:
+    profiles: ["spark", "zeppelin", "full"]
+    build:
+      context: .
+      dockerfile: spark/Dockerfile
+      target: spark
+    image: atelier-hive-tez/spark:4.0.4
+    container_name: spark-worker
+    hostname: spark-worker
+    command: ["/opt/spark/bin/spark-class", "org.apache.spark.deploy.worker.Worker",
+              "--cores", "4", "--memory", "3g", "--webui-port", "8081",
+              "spark://spark-master:7077"]
+    environment:
+      SPARK_DAEMON_MEMORY: 512m
+    ports:
+      - "8081:8081"
+    depends_on:
+      spark-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:8081/json/ > /dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  spark-history:
+    profiles: ["spark", "zeppelin", "full"]
+    build:
+      context: .
+      dockerfile: spark/Dockerfile
+      target: spark
+    image: atelier-hive-tez/spark:4.0.4
+    container_name: spark-history
+    hostname: spark-history
+    command: ["/opt/spark/bin/spark-class", "org.apache.spark.deploy.history.HistoryServer"]
+    environment:
+      SPARK_DAEMON_MEMORY: 512m
+    ports:
+      - "18080:18080"
+    depends_on:
+      namenode:
+        condition: service_healthy
+      tez-init:
+        # /spark-logs doit exister sur HDFS avant le démarrage (créé par init-tez.sh)
+        condition: service_completed_successfully
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # Apache Zeppelin 0.12.1 (profils : zeppelin, full)
+  # Interpréteurs préconfigurés : %spark / %spark.pyspark / %spark.sql (Spark
+  # 4.0.4 du cluster), %hive (HiveServer2), %impala, %sh (client hdfs/yarn),
+  # %python (happybase -> HBase), %md. Notebooks : TP/TP_N1, Atelier/Démo écosystème
+  # ══════════════════════════════════════════════════════════════════════════
+
+  zeppelin:
+    profiles: ["zeppelin", "full"]
+    build:
+      context: .
+      dockerfile: spark/Dockerfile
+      target: zeppelin
+    image: atelier-hive-tez/zeppelin:0.12.1
+    container_name: zeppelin
+    hostname: zeppelin
+    ports:
+      - "8082:8082"   # UI Zeppelin
+      - "4040:4040"   # UI du driver Spark lancé par Zeppelin (quand il tourne)
+    volumes:
+      # Volume nommé : initialisé au 1er démarrage avec les notebooks de l'image
+      # (TP N1, démo), puis conservé entre deux "docker compose up".
+      - zeppelin_notebook:/opt/zeppelin/notebook
+      - ./data:/opt/data:ro
+      - ./scripts:/opt/scripts:ro
+    depends_on:
+      spark-master:
+        condition: service_healthy
+      hiveserver2:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:8082/api/version > /dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # Apache HBase 2.6.7 (profils : hbase, full) — données sur HDFS, ZooKeeper
+  # partagé avec le bonus LLAP. Image : hbase/Dockerfile
+  # ══════════════════════════════════════════════════════════════════════════
+
+  hbase-master:
+    profiles: ["hbase", "full"]
+    build: ./hbase
+    image: atelier-hive-tez/hbase:2.6.7
+    container_name: hbase-master
+    hostname: hbase-master
+    # Nom d'hôte annoncé explicite (hbase.master.hostname ; côté RegionServer :
+    # hbase.unsafe.regionserver.hostname, nom de la clé depuis HBase 2.4) : sans
+    # lui, HBase utiliserait le nom DNS inverse fourni par Docker
+    # ("hbase-master.atelier-hive-tez_default"), dont le "_" est refusé par
+    # certains parseurs d'URL Java.
+    command: ["hbase", "master", "-Dhbase.master.hostname=hbase-master", "start"]
+    environment:
+      HBASE_HEAPSIZE: 512m
+    ports:
+      - "16010:16010"
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+      namenode:
+        condition: service_healthy
+      tez-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/16000'"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  hbase-regionserver:
+    profiles: ["hbase", "full"]
+    build: ./hbase
+    image: atelier-hive-tez/hbase:2.6.7
+    container_name: hbase-regionserver
+    hostname: hbase-regionserver
+    command: ["hbase", "regionserver", "-Dhbase.unsafe.regionserver.hostname=hbase-regionserver", "start"]
+    environment:
+      HBASE_HEAPSIZE: 768m
+    ports:
+      - "16030:16030"
+    depends_on:
+      hbase-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/16020'"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  # Serveur Thrift v1 : utilisé par l'explorateur HBase de Hue et par happybase
+  hbase-thrift:
+    profiles: ["hbase", "full"]
+    build: ./hbase
+    image: atelier-hive-tez/hbase:2.6.7
+    container_name: hbase-thrift
+    hostname: hbase-thrift
+    command: ["hbase", "thrift", "start", "-p", "9090", "--infoport", "9095"]
+    environment:
+      HBASE_HEAPSIZE: 256m
+    ports:
+      - "9090:9090"
+      - "9095:9095"
+    depends_on:
+      hbase-regionserver:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/9090'"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  # One-shot : attend qu'HBase soit opérationnel puis crée la table "clients_hbase"
+  hbase-init:
+    profiles: ["hbase", "full"]
+    build: ./hbase
+    image: atelier-hive-tez/hbase:2.6.7
+    container_name: hbase-init
+    hostname: hbase-init
+    command: ["/opt/hbase-scripts/init-hbase.sh"]
+    depends_on:
+      hbase-regionserver:
+        condition: service_healthy
+    restart: "no"
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # Apache Impala 4.5.2 (profils : impala, full) — images officielles
+  # apache/impala. Les noms de service "statestored" et "catalogd" sont IMPOSÉS
+  # par ces images (-state_store_host=statestored -catalog_service_host=catalogd
+  # dans leur ENTRYPOINT). Catalogue = metastore Hive partagé, données sur HDFS.
+  # ══════════════════════════════════════════════════════════════════════════
+
+  statestored:
+    profiles: ["impala", "full"]
+    image: apache/impala:4.5.2-statestored
+    container_name: statestored
+    hostname: statestored
+    command: ["-redirect_stdout_stderr=false", "-logtostderr"]
+    ports:
+      - "25010:25010"
+    volumes:
+      - ./impala/conf:/opt/impala/conf:ro
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/24000'"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+
+  catalogd:
+    profiles: ["impala", "full"]
+    image: apache/impala:4.5.2-catalogd
+    container_name: catalogd
+    hostname: catalogd
+    command: ["-redirect_stdout_stderr=false", "-logtostderr"]
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xmx1g"
+    ports:
+      - "25020:25020"
+    volumes:
+      - ./impala/conf:/opt/impala/conf:ro
+    depends_on:
+      statestored:
+        condition: service_healthy
+      metastore:
+        condition: service_healthy
+      namenode:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/26000'"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  impalad:
+    profiles: ["impala", "full"]
+    image: apache/impala:4.5.2-impalad_coord_exec
+    container_name: impalad
+    hostname: impalad
+    command: ["-redirect_stdout_stderr=false", "-logtostderr", "-mem_limit=2g"]
+    environment:
+      # Le tas Java est compté dans mem_limit (-mem_limit_includes_jvm=true)
+      JAVA_TOOL_OPTIONS: "-Xmx512m"
+    ports:
+      - "21050:21050"   # HiveServer2 (JDBC/ODBC, Hue, Zeppelin)
+      - "25000:25000"   # UI impalad
+    volumes:
+      - ./impala/conf:/opt/impala/conf:ro
+    depends_on:
+      catalogd:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/21050'"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # Hue 4.11.0 (profils : hue, full) — éditeurs Hive & Impala, HDFS, YARN, HBase
+  # Base de données Hue : PostgreSQL 15 (conteneur hue-db)
+  # ══════════════════════════════════════════════════════════════════════════
+
+  hue-db:
+    profiles: ["hue", "full"]
+    image: postgres:15-alpine
+    container_name: hue-db
+    hostname: hue-db
+    environment:
+      POSTGRES_USER: hue
+      POSTGRES_PASSWORD: hue
+      POSTGRES_DB: hue
+    volumes:
+      - hue_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hue -d hue"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  hue:
+    profiles: ["hue", "full"]
+    image: gethue/hue:4.11.0
+    container_name: hue
+    hostname: hue
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./hue/z-hue.ini:/usr/share/hue/desktop/conf/z-hue.ini:ro
+      - ./hue/hive-conf:/etc/hive/conf:ro
+    depends_on:
+      hue-db:
+        condition: service_healthy
+      hiveserver2:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:8888/desktop/debug/is_alive > /dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+
+volumes:
+  zeppelin_notebook:
+  hue_db_data:

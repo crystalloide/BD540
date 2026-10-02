@@ -376,17 +376,7 @@ préinstallés :
 | **TP / TP_N1** | le TP N1 fourni (Hive, `%sh` + HDFS, PySpark, Spark SQL), adapté à cet atelier |
 | **Atelier / Demo ecosysteme** | la même table interrogée par HDFS, Hive, Spark, Impala et HBase : vérification de bout en bout |
 
-Le TP N1 n'a subi que des retouches mineures :
 
-- l'adresse du NameNode `hdfs://namenode:9000` de la version d'origine devient
-  `hdfs://namenode:8020`, le port de ce cluster ;
-- la coquille `logjlogs` d'une cellule de texte est corrigée en `log4jlogs` ;
-- un paragraphe d'introduction est ajouté, et le rappel de syntaxe
-  `CREATE TABLE` est affiché comme bloc de code.
-
-La version corrigée est aussi fournie au format Jupyter dans
-`notebooks/TP_N1.ipynb` (seules les deux premières retouches), importable dans
-Zeppelin via *Import note*.
 
 Tous les interpréteurs de Zeppelin 0.12.1 sont installés (*Interpreter* dans
 le menu utilisateur), plus `%sh`. Ceux qui ont un sens dans l'atelier sont

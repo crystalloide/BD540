@@ -144,23 +144,23 @@ On récupère le projet en local :
 
 ```bash
 cd ~
-sudo rm -Rf hadoop-hive-lab
-git clone https://github.com/crystalloide/hadoop-hive-lab
-cd hadoop-hive-lab
+sudo rm -Rf BD540
+git clone https://github.com/crystalloide/BD540
+cd BD540
 ```
 
 ## Démarrage rapide
-
-### Socle seul (atelier d'origine)
-
-```bash
-docker compose up -d --build
-```
 
 ### Écosystème complet
 
 ```bash
 docker compose --profile full up -d --build
+```
+
+### Socle seul (atelier de base)
+
+```bash
+docker compose up -d --build
 ```
 
 ### À la carte

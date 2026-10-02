@@ -614,3 +614,16 @@ services:
 volumes:
   zeppelin_notebook:
   hue_db_data:
+
+# ════════════════════════════════════════════════════════════════════════════
+# Réseau : nom explicite SANS « _ ».
+# Le DNS de Docker répond aux résolutions inverses par <conteneur>.<réseau>.
+# Avec le nom par défaut « atelier-hive-tez_default », certains clients Java
+# obtiennent un nom d'hôte invalide (« _ » interdit par java.net.URI) :
+#   - catalogd (client metastore CDP d'Impala) : URISyntaxException sur
+#     thrift://metastore.atelier-hive-tez_default:9083, puis arrêt ;
+#   - HBase, Spark : même famille de problèmes (noms d'hôtes publiés).
+# ════════════════════════════════════════════════════════════════════════════
+networks:
+  default:
+    name: atelier-hive-tez-net

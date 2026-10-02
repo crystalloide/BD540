@@ -78,6 +78,15 @@
     <name>hive.metastore.transactional.event.listeners</name>
     <value>org.apache.hive.hcatalog.listener.DbNotificationListener</value>
   </property>
+  <!-- Événements en JSON non compressé. Hive 4 les écrit par défaut en
+       gzip+base64 (GzipJSONMessageEncoder). Le décodeur d'Impala est fixé
+       par SA propre configuration (impala/conf/hive-site.xml) : les deux
+       côtés doivent utiliser le même encodeur. JSONMessageEncoder existe
+       dans Hive 4.1.0 et dans le client CDP d'Impala 4.5.2. -->
+  <property>
+    <name>hive.metastore.event.message.factory</name>
+    <value>org.apache.hadoop.hive.metastore.messaging.json.JSONMessageEncoder</value>
+  </property>
 
   <!-- hive.user.install.directory est volontairement LAISSÉ à sa valeur par
        défaut (résolu sur HDFS, sous /user/hive, via fs.defaultFS). Le

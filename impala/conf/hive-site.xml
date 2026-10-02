@@ -18,4 +18,11 @@
     <name>hive.metastore.client.socket.timeout</name>
     <value>3600</value>
   </property>
+  <!-- Décodeur des événements du metastore (synchro automatique Hive/Spark
+       vers Impala). DOIT être identique à l'encodeur configuré côté
+       metastore dans hive-conf/hive-site.xml. -->
+  <property>
+    <name>hive.metastore.event.message.factory</name>
+    <value>org.apache.hadoop.hive.metastore.messaging.json.JSONMessageEncoder</value>
+  </property>
 </configuration>

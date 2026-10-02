@@ -495,8 +495,11 @@ Sans `-v`, ils sont conservés pour la séance suivante.
 | Zeppelin : `Interpreter process is not running` | *Settings > Interpreter > spark > restart*. Journaux : `docker exec zeppelin ls /opt/zeppelin/logs`. |
 | Impala ne voit pas une table créée dans Hive | Attendre quelques secondes (synchronisation par événements), sinon `INVALIDATE METADATA base.table;`. |
 | `catalogd` s'arrête au démarrage (`Events processor cannot start`) | Le metastore n'a pas relu `hive-conf/hive-site.xml` (`hive.metastore.dml.events=true`) : `docker compose restart metastore`, puis `docker compose --profile impala up -d`. |
+| `docker logs catalogd` : `URISyntaxException: Illegal character in hostname ... _default` | Le réseau Docker porte encore un nom avec `_`. Vérifier la section `networks:` en fin de `docker-compose.yml` (nom `atelier-hive-tez-net`), puis `docker compose --profile full down` et `docker compose --profile full up -d`. |
+| Impala : l'état de synchronisation (http://localhost:25020/events) est en `ERROR` | Le metastore et Impala n'utilisent pas le même `hive.metastore.event.message.factory`. Aligner `hive-conf/hive-site.xml` et `impala/conf/hive-site.xml`, puis redémarrer `metastore` et `catalogd`. En attendant : `INVALIDATE METADATA;`. |
 | Hue : erreur sur l'éditeur Impala ou le menu HBase | Le profil correspondant n'est pas démarré (`--profile impala` / `--profile hbase`). |
 | HBase : `PleaseHoldException: Master is initializing` | Le master attend le RegionServer : patienter 1 à 2 minutes. |
+| HBase : `No servers available; cannot place 1 unassigned regions` dans les logs du master | Normal pendant 1 à 2 minutes : le master attend le RegionServer pour placer la table système `hbase:meta`. Si le message persiste, vérifier `docker compose --profile hbase ps` (`hbase-regionserver` doit être *healthy*) et `docker logs hbase-regionserver`. |
 | Build : `404` sur un téléchargement Apache | Les Dockerfiles se replient automatiquement sur `archive.apache.org`. Si les deux échouent, relancer le build (miroir temporairement indisponible). |
 | Mémoire insuffisante (conteneurs tués, code 137) | Augmenter la RAM de Docker (16 Go pour `full`) ou ne démarrer que les profils utiles. |
 
@@ -670,7 +673,23 @@ Sans `-v`, ils sont conservés pour la séance suivante.
     Impala.
 
   Le client metastore d'Impala (CDP Hive 3.1.3000) utilise `get_table_req`, pas
-  `get_table` : il est compatible avec le metastore 4.1.0.
+  `get_table` : il est compatible avec le metastore 4.1.0. Deux différences
+  avec le client Hive 4 imposent toutefois des réglages :
+  - **Nom du réseau Docker.** Le client CDP remplace l'hôte de
+    `hive.metastore.uris` par son nom canonique, obtenu par DNS inverse. Le DNS
+    de Docker répond `<conteneur>.<réseau>`. Avec le réseau par défaut
+    `atelier-hive-tez_default`, le résultat (`metastore.atelier-hive-tez_default`)
+    contient un `_`, interdit dans une URI Java : catalogd boucle sur
+    `URISyntaxException` puis s'arrête. Le réseau est donc nommé
+    explicitement `atelier-hive-tez-net`, à la fin de `docker-compose.yml`.
+    Le client Hive 4 de HiveServer2 et de Spark n'est pas concerné : il garde
+    l'URI telle quelle.
+  - **Format des événements.** Hive 4 écrit par défaut ses événements en gzip
+    (`GzipJSONMessageEncoder`), alors qu'Impala choisit son décodeur d'après sa
+    propre configuration. Les deux côtés sont alignés sur `JSONMessageEncoder`
+    (`hive-conf/hive-site.xml` et `impala/conf/hive-site.xml`). Sans cet
+    alignement, catalogd démarre, mais la synchronisation automatique passe en
+    erreur au premier `CREATE TABLE`.
 
   Limite connue : les statistiques de colonnes `TIMESTAMP` calculées par Hive 4
   ne sont pas relues par Impala 4.5.2 (IMPALA-15361, corrigé après la 4.5.2).
@@ -708,9 +727,9 @@ Les versions ne changent pas. Les seules retouches du socle sont additives :
 | `hadoop/config` | utilisateur proxy `hue` ; `dfs.permissions.enabled=false` ; WebHDFS explicitement activé |
 | `hadoop/init-tez.sh` | création de `/spark-logs`, `/user/data` (TP N1) et `/hbase` |
 | `hadoop/Dockerfile` | repli sur `archive.apache.org` pour Tez 0.10.5 |
-| `hive-conf/hive-site.xml` | `hive.metastore.dml.events` + `DbNotificationListener` (Impala) |
+| `hive-conf/hive-site.xml` | `hive.metastore.dml.events` + `DbNotificationListener` + événements en JSON non compressé (Impala) |
 | `hive-conf/core-site.xml` | utilisateur proxy `hue` (filet de sécurité) |
-| `docker-compose.yml` | `zookeeper` partagé (profils `llap`, `hbase`, `full`) + nouveaux services |
+| `docker-compose.yml` | `zookeeper` partagé (profils `llap`, `hbase`, `full`) + nouveaux services + réseau nommé `atelier-hive-tez-net` (sans `_`) |
 | `scripts/benchmark_engines.sh` | mesures Impala et Spark SQL en bonus, si ces services tournent |
 
 Nouveaux fichiers : `spark/`, `zeppelin/`, `hbase/`, `impala/`, `hue/`,

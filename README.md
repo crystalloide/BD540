@@ -151,16 +151,16 @@ cd BD540
 
 ## Démarrage rapide
 
-### Socle seul (atelier d'origine)
-
-```bash
-docker compose up -d --build
-```
 
 ### Écosystème complet
 
 ```bash
 docker compose --profile full up -d --build
+```
+### Socle seul (atelier de base)
+
+```bash
+docker compose up -d --build
 ```
 
 ### À la carte

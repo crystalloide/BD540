@@ -427,7 +427,9 @@ services:
       tez-init:
         condition: service_completed_successfully
     healthcheck:
-      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/16000'"]
+      # Le RPC du master écoute sur l'IP du conteneur (adresse de "hbase-master"),
+      # PAS sur localhost : on teste donc le nom d'hôte, pas 127.0.0.1.
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/hbase-master/16000'"]
       interval: 10s
       timeout: 5s
       retries: 30
@@ -448,7 +450,8 @@ services:
       hbase-master:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/16020'"]
+      # Même remarque que pour le master : RPC lié à l'IP de "hbase-regionserver"
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/hbase-regionserver/16020'"]
       interval: 10s
       timeout: 5s
       retries: 30

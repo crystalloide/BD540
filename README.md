@@ -149,7 +149,6 @@ git clone https://github.com/crystalloide/BD540
 cd BD540
 ```
 
-
 ## Démarrage rapide
 
 ### Socle seul (atelier d'origine)
@@ -237,7 +236,7 @@ démarrage du profil `full` avant de lancer la vérification.
 | Impala — impalad | http://localhost:25000 | impala |
 | Impala — statestore | http://localhost:25010 | impala |
 | Impala — catalog | http://localhost:25020 | impala |
-| **Hue** | **http://localhost:8888** (compte `admin` / `admin`) | hue |
+| **Hue** | **http://localhost:8888** (compte `hue` / `hue`) | hue |
 
 Les raccourcis correspondants sont dans le dossier `url/`.
 
@@ -462,13 +461,29 @@ mesure Spark SQL à la comparaison MapReduce / Tez quand ces services tournent.
 
 ### Hue — http://localhost:8888
 
-Profil `hue`. Connexion avec le compte administrateur **`admin` / `admin`**,
-créé automatiquement au premier démarrage (variables `HUE_ADMIN_USER` et
-`HUE_ADMIN_PASSWORD` du service `hue` dans `docker-compose.yml`). Les comptes
-des stagiaires se créent ensuite dans *Administer Users*.
+Profil `hue`. Connexion avec **`hue` / `hue`**, compte administrateur avec
+accès complet (éditeurs, fichiers HDFS, tables, jobs, HBase, gestion des
+utilisateurs). Un compte de secours **`admin` / `admin`** existe aussi : sa
+présence évite l'écran « Create your account ». Les deux sont prêts dès le
+premier démarrage. Mots de passe : variables `HUE_USER_PASSWORD` et
+`HUE_ADMIN_PASSWORD` du service `hue` dans `docker-compose.yml`. Elles ne
+s'appliquent qu'à la création ; un mot de passe changé ensuite dans Hue est
+conservé.
 
-Le nom **`hue` est réservé** par Hue à son utilisateur interne (désactivé), qui
-possède les exemples : il ne peut pas servir de compte de connexion.
+Vérification de bout en bout côté serveur : connexion `hue` / `hue`, puis
+chargement de la configuration de l'interface.
+
+```bash
+docker exec hue /usr/share/hue/atelier-check.sh
+```
+
+Si ce test affiche `OK` mais que la page reste blanche, le problème vient du
+navigateur. Il conserve en cache des données d'un autre Hue servi auparavant
+à la même adresse (par exemple celui du projet Big-Data-Cluster). Ouvrez Hue
+dans une fenêtre de navigation privée, ou effacez les données du site
+`localhost:8888` (F12 → *Application* → *Storage* → *Clear site data*), ou
+utilisez http://127.0.0.1:8888 (autre origine, donc ni cache ni stockage
+partagés).
 
 | Menu Hue | Branché sur |
 |---|---|
@@ -504,7 +519,8 @@ Sans `-v`, ils sont conservés pour la séance suivante.
 | `docker logs catalogd` : `URISyntaxException: Illegal character in hostname ... _default` | Le réseau Docker porte encore un nom avec `_`. Vérifier la section `networks:` en fin de `docker-compose.yml` (nom `atelier-hive-tez-net`), puis `docker compose --profile full down` et `docker compose --profile full up -d`. |
 | Impala : l'état de synchronisation (http://localhost:25020/events) est en `ERROR` | Le metastore et Impala n'utilisent pas le même `hive.metastore.event.message.factory`. Aligner `hive-conf/hive-site.xml` et `impala/conf/hive-site.xml`, puis redémarrer `metastore` et `catalogd`. En attendant : `INVALIDATE METADATA;`. |
 | Hue : erreur sur l'éditeur Impala ou le menu HBase | Le profil correspondant n'est pas démarré (`--profile impala` / `--profile hbase`). |
-| Hue : « user already exists » en créant le compte `hue` | Nom réservé par Hue. Se connecter avec `admin` / `admin` (créé automatiquement). |
+| Hue : écran « Create your account » ou « user already exists » pour `hue` | L'image de l'atelier n'est pas utilisée. Reconstruire : `docker compose --profile hue up -d --build`, puis se connecter avec `hue` / `hue`. |
+| Hue : page blanche après connexion | `docker exec hue /usr/share/hue/atelier-check.sh`. Si `OK` : cache du navigateur (autre Hue servi auparavant sur `localhost:8888`). Fenêtre privée, *Clear site data* (F12) ou http://127.0.0.1:8888. Si `KO` : le message indique l'étape en échec, détails dans `docker logs hue`. |
 | Hue : `403 CSRF error. Sorry, your session is invalid or has expired` | Page ouverte avant une connexion/déconnexion faite dans un autre onglet : recharger la page (F5). Si l'erreur persiste, vérifier que l'image de l'atelier est utilisée (`docker compose --profile hue build hue`, puis `docker compose --profile hue up -d`) : ses cookies portent des noms propres (`hue_atelier_*`) et ne peuvent plus être écrasés par un autre Hue ou une autre application Django ouverte sur `localhost`. Motif exact : `docker logs hue 2>&1 \| grep -i csrf`. |
 | HBase : `PleaseHoldException: Master is initializing` | Le master attend le RegionServer : patienter 1 à 2 minutes. |
 | HBase : `No servers available; cannot place 1 unassigned regions` dans les logs du master | Normal pendant 1 à 2 minutes : le master attend le RegionServer pour placer la table système `hbase:meta`. Si le message persiste, vérifier `docker compose --profile hbase ps` (`hbase-regionserver` doit être *healthy*) et `docker logs hbase-regionserver`. |
@@ -713,10 +729,15 @@ Sans `-v`, ils sont conservés pour la séance suivante.
     Hive 4 ;
   - l'explorateur de fichiers utilise WebHDFS avec l'utilisateur proxy `hue`,
     autorisé dans `hadoop/config` (`hadoop.proxyuser.hue.*`) ;
-  - **compte `admin` créé d'avance** (`hue/atelier-startup.sh`, idempotent).
-    Sans lui, Hue affiche à la première visite « Create your account », où le
-    nom `hue` est refusé : Hue le réserve à l'utilisateur interne qui possède
-    les exemples ;
+  - **compte `hue` / `hue` administrateur.** `hue` est l'utilisateur interne
+    que Hue crée lui-même (id 1100713), désactivé et sans mot de passe, et qui
+    possède les exemples. Pour cette raison, l'écran « Create your account »
+    refuse ce nom. `hue/atelier_hue_user.py` l'active au démarrage, avec les
+    droits administrateur et le mot de passe `hue`. Hue retrouve cet
+    utilisateur par son id et ne réinitialise jamais ces attributs. Un compte
+    de secours `admin` est créé en plus : tant qu'il n'existe aucun autre
+    utilisateur, Hue reste en mode « première connexion » et refuse toute
+    connexion normale ;
   - **cookies propres à l'atelier** (`hue_atelier_sessionid`,
     `hue_atelier_csrftoken`). Un cookie est lié au nom d'hôte, pas au port :
     tout autre Hue ou application Django ouvert sur `localhost` (par exemple le

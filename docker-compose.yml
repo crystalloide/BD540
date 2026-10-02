@@ -598,8 +598,10 @@ services:
     container_name: hue
     hostname: hue
     environment:
-      # Compte de connexion à Hue (créé au premier démarrage, conservé dans hue-db).
-      # « hue » est interdit : Hue réserve ce nom à son utilisateur interne.
+      # Compte principal : hue / hue, administrateur (accès complet).
+      # C'est l'utilisateur interne de Hue, activé au démarrage (hue/atelier_hue_user.py).
+      HUE_USER_PASSWORD: hue
+      # Compte de secours (sa présence évite l'écran « Create your account »).
       HUE_ADMIN_USER: admin
       HUE_ADMIN_PASSWORD: admin
     ports:

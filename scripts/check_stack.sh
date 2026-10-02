@@ -87,6 +87,8 @@ echo "== Hue =="
 if running hue; then
   check "Hue : serveur web (port 8888)" \
     docker exec hue curl -fs http://localhost:8888/desktop/debug/is_alive
+  check "Hue : connexion hue/hue + configuration de l'interface (/api/get_config/)" \
+    docker exec hue /usr/share/hue/atelier-check.sh
 else skip "Hue"; fi
 
 echo ""

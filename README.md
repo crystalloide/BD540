@@ -156,6 +156,11 @@ cd BD540
 ```bash
 docker compose --profile full up -d --build
 ```
+### Écosystème complet (économe en ressources) : 
+
+```bash
+docker compose -f docker-compose-light.yml --profile full up -d --build
+```
 
 ### Socle seul (atelier de base)
 

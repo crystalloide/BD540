@@ -338,6 +338,11 @@ port séparé.
 ```bash
 docker compose --profile llap up -d
 ```
+### Version LLAP économe en ressources : 
+
+```bash
+docker compose -f docker-compose-light.yml --profile llap up -d
+```
 
 Puis, dans une session sur le **second** HiveServer2 (port `10001`, table
 `clients` partagée via le même metastore) :
